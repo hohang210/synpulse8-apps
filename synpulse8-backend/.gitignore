@@ -1,9 +1,10 @@
 HELP.md
+target/
+.mvn/wrapper/maven-wrapper.jar
 **/src/main/**/target/
 **/src/test/**/target/
-**/.mvn
-**/mvnw
-**/mvnw.cmd
+mvnw.cmd
+mvnw
 
 ### STS ###
 .apt_generated
@@ -16,7 +17,7 @@ HELP.md
 
 ### IntelliJ IDEA ###
 .idea
-*.iwst
+*.iws
 *.iml
 *.ipr
 
@@ -29,7 +30,6 @@ HELP.md
 build/
 !**/src/main/**/build/
 !**/src/test/**/build/
-<<<<<<< HEAD
 
-=======
->>>>>>> master
+### VS Code ###
+.vscode/
