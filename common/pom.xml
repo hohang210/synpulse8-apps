@@ -5,12 +5,12 @@
     <parent>
         <groupId>com.oliver</groupId>
         <artifactId>synpulse8-apps</artifactId>
-        <version>0.0.0</version>
+        <version>0.0.1</version>
     </parent>
 
     <groupId>com.oliver</groupId>
     <artifactId>common</artifactId>
-    <version>0.0.0</version>
+    <version>0.1.0</version>
     <name>common</name>
     <description>common</description>
     <packaging>jar</packaging>

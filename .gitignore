@@ -1,10 +1,9 @@
 HELP.md
-target/
-.mvn/wrapper/maven-wrapper.jar
 **/src/main/**/target/
 **/src/test/**/target/
-mvnw.cmd
-mvnw
+**/.mvn
+**/mvnw
+**/mvnw.cmd
 
 ### STS ###
 .apt_generated
@@ -30,3 +29,7 @@ mvnw
 build/
 !**/src/main/**/build/
 !**/src/test/**/build/
+<<<<<<< HEAD
+
+=======
+>>>>>>> master
