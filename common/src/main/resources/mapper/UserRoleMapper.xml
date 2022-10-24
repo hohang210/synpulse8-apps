@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.oliver.tenancy.mapper.UserRoleMapper">
+    <insert id="saveUserRole">
+        insert into `users_roles` (user_id, role_id)
+        values (#{userId}, #{roleId})
+    </insert>
+
+    <select id="getUserRole" resultType="UserRole">
+        select * from `users_roles`
+        where #{userId} = user_id and #{roleId} = role_id
+    </select>
+
+    <delete id="removeAllUsersRolesFromDB">
+        delete from `users_roles`
+    </delete>
+</mapper>

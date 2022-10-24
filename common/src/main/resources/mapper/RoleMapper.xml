@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.oliver.tenancy.mapper.RoleMapper">
+    <insert id="saveRole" parameterType="Role" useGeneratedKeys="true" keyProperty="id">
+        insert into `roles` (name, deleted)
+        values (#{role.name}, #{role.deleted})
+    </insert>
+
+    <resultMap id="roleWithMenus" type="Role">
+        <id column="role_id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="role_deleted" property="deleted"/>
+        <collection property="systemMenus" javaType="list" ofType="SystemMenu">
+            <id column="menu_id" property="id" />
+            <result column="permission" property="permission"/>
+            <result column="resource" property="resource"/>
+            <result column="menu_deleted" property="deleted"/>
+        </collection>
+    </resultMap>
+
+    <!--TODO: Improve this query-->
+    <select id="getRoleById" resultMap="roleWithMenus">
+        select roles.id role_id, name, roles.deleted role_deleted,
+               system_menus.id menu_id, permission, resource, system_menus.deleted menu_deleted
+        from `roles`
+            left join `roles_menus` on roles.id = roles_menus.role_id
+            left join `system_menus` on system_menus.id = roles_menus.menu_id
+        where #{roleId} = roles.id
+    </select>
+
+    <!--TODO: Improve this query-->
+    <select id="getRoleByName" resultMap="roleWithMenus">
+        select roles.id role_id, name, roles.deleted role_deleted,
+               system_menus.id menu_id, permission, resource, system_menus.deleted menu_deleted
+        from `roles`
+                 left join `roles_menus` on roles.id = roles_menus.role_id
+                 left join `system_menus` on system_menus.id = roles_menus.menu_id
+        where #{name} = roles.name
+    </select>
+
+    <delete id="removeAllRolesFromDB">
+        delete from `roles`
+    </delete>
+</mapper>

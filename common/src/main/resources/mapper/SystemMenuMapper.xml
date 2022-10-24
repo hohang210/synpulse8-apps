@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.oliver.tenancy.mapper.SystemMenuMapper">
+    <insert id="saveSystemMenu" parameterType="SystemMenu" useGeneratedKeys="true" keyProperty="id">
+        insert into `system_menus` (permission, resource, deleted)
+        values (#{systemMenu.permission}, #{systemMenu.resource}, #{systemMenu.deleted})
+    </insert>
+
+    <select id="getSystemMenuById" resultType="SystemMenu">
+        select * from `system_menus`
+        where #{menuId} = id
+    </select>
+
+    <select id="getSystemMenuByResourceAndPermission" resultType="SystemMenu">
+        select * from `system_menus`
+        where #{resource} = resource and #{permission} = permission
+    </select>
+
+    <delete id="removeAllSystemMenusFromDB">
+        delete from `system_menus`
+    </delete>
+</mapper>

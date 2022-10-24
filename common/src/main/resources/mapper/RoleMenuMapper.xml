@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.oliver.tenancy.mapper.RoleMenuMapper">
+    <insert id="saveRoleSystemMenu">
+        insert into `roles_menus` (role_id, menu_id)
+        values (#{roleId}, #{menuId})
+    </insert>
+
+    <select id="getRoleSystemMenu" resultType="RoleMenu">
+        select * from `roles_menus`
+        where #{roleId} = role_id and #{menuId} = menu_id
+    </select>
+
+    <delete id="removeAllRolesSystemMenusFromDB">
+        delete from `roles_menus`
+    </delete>
+</mapper>
