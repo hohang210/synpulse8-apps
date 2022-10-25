@@ -5,12 +5,12 @@
     <parent>
         <groupId>com.oliver</groupId>
         <artifactId>synpulse8-apps</artifactId>
-        <version>0.0.1</version>
+        <version>0.0.2</version>
     </parent>
 
     <groupId>com.oliver</groupId>
     <artifactId>synpulse8-backend</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.1.0</version>
     <name>synpulse8-backend</name>
     <description>synpulse8-backend</description>
     <packaging>jar</packaging>
@@ -29,6 +29,25 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+
+        <!--common package-->
+        <dependency>
+            <groupId>com.oliver</groupId>
+            <artifactId>common</artifactId>
+            <version>0.1.1</version>
+        </dependency>
+
+        <!--Spring security-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <!--Spring web-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
     </dependencies>
 

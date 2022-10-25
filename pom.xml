@@ -11,7 +11,7 @@
 
     <groupId>com.oliver</groupId>
     <artifactId>synpulse8-apps</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.2</version>
     <name>synpulse8-apps</name>
     <description>synpulse8-apps</description>
     <packaging>pom</packaging>
@@ -37,14 +37,4 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
-
 </project>

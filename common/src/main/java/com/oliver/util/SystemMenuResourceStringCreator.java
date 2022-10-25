@@ -2,26 +2,25 @@ package com.oliver.util;
 
 public class SystemMenuResourceStringCreator {
     /**
-     * Returns a resource string of creating account by user.
+     * Returns a user's resource string of accessing basic account resource
+     * (e.g. creating account)
      *
-     * @param username A signup username.
-     * @return Returns a resource string of creating account by user.
+     * @return Returns a resource string of accessing basic account resource.
      */
-    public static String getAccountResourceString(String username) {
-        return "/user/" + username + "/account";
+    public static String getAccountResourceString() {
+        return "/account";
     }
 
     /**
-     * Returns a resource string of getting account info by user.
-     * (e.g. getTransactions)
+     * Returns a user's resource string of getting account info.
+     * (e.g. getTransactionsByAccountNumber)
      *
-     * @param username A signup username with creating account permission.
      * @param accountNumber An account number under the signup user with
      *                      creating account permission.
      *
      * @return Returns a resource string of getting account info by user.
      */
-    public static String getAccountInformationResourceString(String username, String accountNumber) {
-        return "/user/" + username + "/account/" + accountNumber;
+    public static String getAccountInformationResourceString(String accountNumber) {
+        return String.format("/account/%s", accountNumber);
     }
 }

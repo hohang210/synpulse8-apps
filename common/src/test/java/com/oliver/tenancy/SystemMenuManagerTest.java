@@ -18,18 +18,11 @@ import org.springframework.test.context.ActiveProfiles;
 @SpringBootTest(classes = CommonApplication.class)
 @ActiveProfiles("test")
 public class SystemMenuManagerTest {
-    private static Faker faker;
-
     @Autowired
     private SystemMenuManager systemMenuManager;
 
     @Autowired
     private SystemMenuMapper systemMenuMapper;
-
-    @BeforeAll
-    public static void setUp() {
-        faker = new Faker();
-    }
 
     @AfterEach
     public void tearDown() {
@@ -38,10 +31,9 @@ public class SystemMenuManagerTest {
 
     @Test
     public void createSystemMenuWithGrantPermissionTest() throws ConflictException, ValidationException {
-        String username = faker.name().name();
         String resource =
                 SystemMenuResourceStringCreator
-                        .getAccountResourceString(username);
+                        .getAccountResourceString();
 
         SystemMenu systemMenu =
                 systemMenuManager
@@ -69,10 +61,9 @@ public class SystemMenuManagerTest {
 
     @Test
     public void createSystemMenuWithDenyPermissionTest() throws ConflictException, ValidationException {
-        String username = faker.name().name();
         String resource =
                 SystemMenuResourceStringCreator
-                        .getAccountResourceString(username);
+                        .getAccountResourceString();
 
         SystemMenu systemMenu =
                 systemMenuManager
@@ -100,10 +91,9 @@ public class SystemMenuManagerTest {
 
     @Test
     public void getSystemMenuByResourceWithGrantPermissionTest() throws ValidationException, ConflictException {
-        String username = faker.name().name();
         String resource =
                 SystemMenuResourceStringCreator
-                        .getAccountResourceString(username);
+                        .getAccountResourceString();
 
         SystemMenu savedSystemMenu =
                 systemMenuManager
@@ -123,10 +113,9 @@ public class SystemMenuManagerTest {
 
     @Test
     public void getSystemMenuByResourceWithDenyPermissionTest() throws ValidationException, ConflictException {
-        String username = faker.name().name();
         String resource =
                 SystemMenuResourceStringCreator
-                        .getAccountResourceString(username);
+                        .getAccountResourceString();
 
         SystemMenu savedSystemMenu =
                 systemMenuManager

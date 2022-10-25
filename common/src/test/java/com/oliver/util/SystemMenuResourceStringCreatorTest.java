@@ -15,28 +15,22 @@ public class SystemMenuResourceStringCreatorTest {
 
     @Test
     public void getCreateAccountResourceStringTest() {
-        String username = faker.name().name();
-        String expectedResourceString = "/user/" + username + "/account";
+        String expectedResourceString = "/account";
 
         String resourceString =
                 SystemMenuResourceStringCreator
-                        .getAccountResourceString(username);
+                        .getAccountResourceString();
         Assertions.assertEquals(expectedResourceString,  resourceString);
     }
 
     @Test
     public void getAccountResourceStringTest() {
-        String username = faker.name().name();
         String accountNumber = faker.finance().iban();
-
-        String expectedResourceString = "/user/" + username +
-                "/account/" + accountNumber;
-
-        System.out.println(expectedResourceString);
+        String expectedResourceString = "/account/" + accountNumber;
 
         String resourceString =
                 SystemMenuResourceStringCreator.
-                        getAccountInformationResourceString(username, accountNumber);
+                        getAccountInformationResourceString(accountNumber);
         Assertions.assertEquals(expectedResourceString, resourceString);
     }
 }
