@@ -42,7 +42,8 @@ public class UserMapperTest {
         userFaker = new UserFaker(
                 userMapper,
                 roleMapper,
-                userRoleMapper);
+                userRoleMapper
+        );
 
         roleFaker = new RoleFaker(
                 roleMapper,

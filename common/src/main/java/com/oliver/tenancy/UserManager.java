@@ -84,7 +84,7 @@ public class UserManager {
      *                requested user or 'null' if the ID could not be
      *                found.
      */
-    User getUserById(int userId) {
+    public User getUserById(int userId) {
         return userMapper.getUserById(userId);
     }
 
@@ -97,7 +97,7 @@ public class UserManager {
      *                requested user or 'null' if the username could not be
      *                found.
      */
-    User getUserByUsername(String username) {
+    public User getUserByUsername(String username) {
         if (username == null) {
             return null;
         }
