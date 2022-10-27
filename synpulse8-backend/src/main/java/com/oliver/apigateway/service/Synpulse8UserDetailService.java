@@ -1,7 +1,8 @@
-package com.oliver.apigateway.service;
+package com.oliver.apiGateway.service;
 
-import com.oliver.apigateway.domain.LoginUser;
-import com.oliver.tenancy.UserManager;
+import com.oliver.apiGateway.domain.LoginUser;
+import com.oliver.tenancy.domain.SystemMenu;
+import com.oliver.tenancy.manager.UserManager;
 import com.oliver.tenancy.domain.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @Slf4j
@@ -26,7 +29,9 @@ public class Synpulse8UserDetailService implements UserDetailsService {
             );
         }
 
-        return new LoginUser(user);
+        List<SystemMenu> systemMenus =
+                userManager.showAllGrantedResources(user.getId());
+        return new LoginUser(user, systemMenus);
     }
 
     @Autowired

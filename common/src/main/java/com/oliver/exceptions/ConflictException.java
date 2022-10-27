@@ -1,6 +1,6 @@
 package com.oliver.exceptions;
 
-public class ConflictException extends Exception {
+public class ConflictException extends RuntimeException {
     public ConflictException(String field, String message) {
         super(
                 message == null ?

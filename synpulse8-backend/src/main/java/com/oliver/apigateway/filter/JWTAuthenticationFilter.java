@@ -1,7 +1,6 @@
-package com.oliver.apigateway.filter;
+package com.oliver.apiGateway.filter;
 
-import com.oliver.apigateway.domain.LoginUser;
-import com.oliver.tenancy.domain.User;
+import com.oliver.apiGateway.domain.LoginUser;
 import com.oliver.util.JWTUtil;
 import com.oliver.util.redis.RedisCache;
 import com.oliver.util.redis.RedisKeyCreator;
@@ -43,15 +42,15 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        jwt = jwt.replace("bearer ", "");
+        jwt = jwt.replace("Bearer ", "");
 
         // Parse token and retrieve logged-in user from redis
-        String userId = null;
-        User user;
+        String userId;
+        LoginUser loginUser;
         try {
             Claims claims = JWTUtil.parseJWT(jwt);
             userId = claims.getSubject();
-            user = redisCache.getObject(
+            loginUser = redisCache.getObject(
                     RedisKeyCreator.createLoginUserKey(userId)
             );
         } catch (Exception e) {
@@ -62,7 +61,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
             );
         }
 
-        if (user == null) {
+        if (loginUser == null) {
             log.error("User - %s is not logged-in");
             throw new RuntimeException(
                     "User - %s is not logged-in"
@@ -70,7 +69,6 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
         }
 
         // Authentication
-        LoginUser loginUser = new LoginUser(user);
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
                 new UsernamePasswordAuthenticationToken(
                         loginUser, null, loginUser.getAuthorities()

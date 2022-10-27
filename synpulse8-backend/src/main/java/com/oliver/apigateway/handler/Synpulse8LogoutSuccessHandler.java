@@ -1,8 +1,9 @@
-package com.oliver.apigateway.handler;
+package com.oliver.apiGateway.handler;
 
 import com.alibaba.fastjson.JSON;
-import com.oliver.apigateway.domain.LoginUser;
+import com.oliver.apiGateway.domain.LoginUser;
 import com.oliver.tenancy.domain.User;
+import com.oliver.util.StatusCode;
 import com.oliver.util.redis.RedisCache;
 import com.oliver.util.ResponseResult;
 import com.oliver.util.redis.RedisKeyCreator;
@@ -31,7 +32,10 @@ public class Synpulse8LogoutSuccessHandler implements LogoutSuccessHandler {
     ) throws IOException, ServletException {
         if (authentication == null) {
             log.warn("An unauthenticated user tried to logout.");
-            response.sendError(401, "User is not authenticated.");
+            response.sendError(
+                    StatusCode.LOGIN_ERROR,
+                    "User is not authenticated."
+            );
             return;
         }
 
@@ -47,7 +51,12 @@ public class Synpulse8LogoutSuccessHandler implements LogoutSuccessHandler {
         response
                 .getWriter()
                 .print(
-                        JSON.toJSON(new ResponseResult<>(200, "Log-out successfully"))
+                        JSON.toJSON(
+                                new ResponseResult<>(
+                                        StatusCode.OK,
+                                        "Log-out successfully"
+                                )
+                        )
                 );
     }
 

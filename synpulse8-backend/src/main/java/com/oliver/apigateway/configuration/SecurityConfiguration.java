@@ -1,10 +1,10 @@
-package com.oliver.apigateway.configuration;
+package com.oliver.apiGateway.configuration;
 
-import com.oliver.apigateway.handler.Synpulse8AccessDeniedHandler;
-import com.oliver.apigateway.handler.Synpulse8AuthenticationEntryPoint;
-import com.oliver.apigateway.filter.JWTAuthenticationFilter;
-import com.oliver.apigateway.filter.JWTUsernamePasswordAuthenticationFilter;
-import com.oliver.apigateway.handler.Synpulse8LogoutSuccessHandler;
+import com.oliver.apiGateway.handler.Synpulse8AccessDeniedHandler;
+import com.oliver.apiGateway.handler.Synpulse8AuthenticationEntryPoint;
+import com.oliver.apiGateway.filter.JWTAuthenticationFilter;
+import com.oliver.apiGateway.filter.JWTUsernamePasswordAuthenticationFilter;
+import com.oliver.apiGateway.handler.Synpulse8LogoutSuccessHandler;
 import com.oliver.util.redis.RedisCache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -67,8 +67,11 @@ public class SecurityConfiguration {
                     .antMatchers("/login").anonymous()
                     .antMatchers("/account/**").authenticated()
                     .antMatchers("/logout").authenticated()
+                    .antMatchers("/swagger-ui.html").permitAll()
+                    .antMatchers("/webjars/**").permitAll()
+                    .antMatchers("/v2/**").permitAll()
+                    .antMatchers("/swagger-resources/**").permitAll()
                     .anyRequest().authenticated();
-
 
         return httpSecurity.build();
     }

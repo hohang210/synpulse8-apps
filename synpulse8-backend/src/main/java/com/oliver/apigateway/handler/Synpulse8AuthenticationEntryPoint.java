@@ -1,7 +1,8 @@
-package com.oliver.apigateway.handler;
+package com.oliver.apiGateway.handler;
 
 import com.alibaba.fastjson.JSON;
 import com.oliver.util.ResponseResult;
+import com.oliver.util.StatusCode;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
@@ -20,10 +21,10 @@ public class Synpulse8AuthenticationEntryPoint implements AuthenticationEntryPoi
             HttpServletRequest request,
             HttpServletResponse response,
             AuthenticationException authenticationException
-    ) throws IOException, ServletException {
+    ) throws IOException {
         ResponseResult<String> responseData =
                 new ResponseResult<>(
-                        HttpStatus.UNAUTHORIZED.value(),
+                        StatusCode.LOGIN_ERROR,
                         authenticationException.getMessage());
 
         response.setStatus(200);

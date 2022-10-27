@@ -1,99 +1,144 @@
 package com.oliver.tenancy.domain;
 
-import java.util.List;
+import org.apache.ibatis.type.Alias;
 
-public interface User {
+import java.io.Serializable;
+import java.util.Objects;
+
+@Alias("User")
+public class User implements Serializable {
+    private static final long serialVersionUID = -4395750857533044953L;
+
     /**
      * The user's unique identifier.
      */
-    Integer id = null;
+    private Integer id;
 
     /**
      * The user's unique username for logging into the system.
      */
-    String username = null;
+    private String username;
 
     /**
      * The user's encrypted password.
      */
-    String password = null;
+    private String password;
 
     /**
      * The user's type (e.g. admin/user etc).
      */
-    String type = null;
+    private String type;
 
     /**
      * The flag indicated whether current user is deleted.
      * Default value is false.
      */
-    boolean deleted = false;
+    private boolean deleted = false;
 
     /**
-     * Saves changes to the User object.
-     *
-     * @return {boolean} Returns a boolean indicated whether user's changes is saved.
+     * Non parameters' constructor.
      */
-    boolean save();
+    public User() {}
 
     /**
-     * Returns a list of roles associated with user.
+     * Constructor of User Object.
      *
-     * @return {List<Role>} Returns a list of roles associated with user.
+     * @param username {String} The user's unique username for logging into the system.
+     * @param password {String} The user's encrypted password.
+     * @param type {String} The user's type (e.g. admin/user etc).
      */
-    List<Role> showAllRoles();
-
-    /**
-     * Adds the user to specified role.
-     * Granting or denying the user the associated permissions.
-     *
-     * @param roleId {int} ID of the role to which the user should be added.
-     *
-     * @return {boolean} Returns a boolean indicated whether user is associated with given role.
-     */
-    boolean addRole(int roleId);
-
-    /**
-     * Determine whether given role is associated to the user.
-     *
-     * @param role {Role} A specified role.
-     *
-     * @return {boolean} Returns a boolean indicated whether user is associated with given role.
-     */
-    boolean hasRole(Role role);
+    public User(
+            String username,
+            String password,
+            String type
+    ) {
+        this.username = username;
+        this.password = password;
+        this.type = type;
+    }
 
     /**
      * Returns the mysql auto incremented id.
      *
      * @return {Integer} Returns the mysql auto incremented id.
      */
-    Integer getId();
+    public Integer getId() {
+        return id;
+    }
 
     /**
      * Returns current user's unique username for logging into the system.
      *
      * @return {String} Returns current user's unique username for logging into the system.
      */
-    String getUsername();
+    public String getUsername() {
+        return username;
+    }
 
     /**
      * Returns current user's encrypted password.
      *
      * @return {String} Returns current user's encrypted password.
      */
-    String getPassword();
+    public String getPassword() {
+        return password;
+    }
 
     /**
      * Returns current user's type (e.g. admin/user etc).
      *
      * @return {String} Returns current user's type (e.g. admin/user etc).
      */
-    String getType();
+    public String getType() {
+        return type;
+    }
 
     /**
      * Returns a flag indicated whether current user is deleted.
      *
      * @return {boolean} Returns a flag indicated whether current user is deleted.
      */
-    boolean isDeleted();
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    /**
+     * Returns a string of current user data.
+     * @return {String} Returns a string of current user data.
+     */
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", type='" + type + '\'' +
+                ", deleted=" + deleted +
+                '}';
+    }
+
+    /**
+     * Compares between the given object and current user.
+     * Returns a flag to indicate whether they are equal.
+     *
+     * @param o {Object}  An user object.
+     * @return {boolean} Returns a flag to indicate whether
+     *                   current user is equal to given object.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User that = (User) o;
+        return id.equals(that.id);
+    }
+
+    /**
+     * Uses object.hash() to hash current user.
+     *
+     * @return {int} Returns a hashcode of current user.
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

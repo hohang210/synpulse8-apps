@@ -12,6 +12,9 @@ spring:
     host: localhost
     port: 3308
     database: 0
+  mvc:
+    path match:
+      matching-strategy: ant_path_matcher
 
 mybatis:
   mapper-locations: classpath*:mapper/*.xml
@@ -20,6 +23,7 @@ mybatis:
     lazy-loading-enabled: true
     aggressive-lazy-loading: false
   type-aliases-package: com.oliver
+
 
 server:
   port: 8889

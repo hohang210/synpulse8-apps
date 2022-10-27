@@ -1,22 +1,29 @@
 package com.oliver.util;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@ApiModel
 public class ResponseResult<T> {
     /**
-     * Http status code (e.g. 200, 403)
+     * Response status code (e.g. 200, 403)
+     * @see StatusCode
      */
+    @ApiModelProperty(value = "Response status code", required = true)
     private Integer code;
 
     /**
-     * Response/Error message for frontend use.
+     * Response message.
      */
+    @ApiModelProperty(value = "Response message")
     private String message;
 
     /**
      * Response data.
      */
+    @ApiModelProperty(value = "Response data")
     private T data;
 
     public ResponseResult() {}
@@ -56,14 +63,26 @@ public class ResponseResult<T> {
         this.data = data;
     }
 
+    /**
+     * Returns response status code.
+     * @return {String} Returns response status code.
+     */
     public Integer getCode() {
         return code;
     }
 
+    /**
+     * Returns response message.
+     * @return {String} Returns response message.
+     */
     public String getMessage() {
         return message;
     }
 
+    /**
+     * Returns response data.
+     * @return {T} Returns response data.
+     */
     public T getData() {
         return data;
     }

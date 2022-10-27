@@ -1,76 +1,107 @@
 package com.oliver.tenancy.domain;
 
-import java.util.List;
+import org.apache.ibatis.type.Alias;
 
-public interface Role {
+import java.io.Serializable;
+import java.util.Objects;
+
+@Alias("Role")
+public class Role implements Serializable {
+    private static final long serialVersionUID = -1219209243658202783L;
+
     /**
-     * An auto incremented Id.
+     * Role's unique identifier.
      */
-    Integer id = null;
+    private Integer id;
 
     /**
      * User-friendly name of the role.
      */
-    String name = null;
+    private String name;
 
     /**
      * A flag indicated whether current role is deleted.
      * Default value is false.
      */
-    boolean deleted = false;
+    private boolean deleted = false;
 
     /**
-     * Saves changes to the User object.
-     *
-     * @return {boolean} Returns a boolean indicated whether user's changes is saved.
+     * Non parameters' constructor.
      */
-    boolean save();
+    public Role() {}
 
     /**
-     * Returns a list of systemMenus associated with role.
-     *
-     * @return {List<SystemMenu>} Returns a list of roles associated with role.
+     * Constructor of Role Object.
+     * @param name {String} User-friendly name of the role.
      */
-    List<SystemMenu> showAllSystemMenus();
-
-    /**
-     * Adds the role to specified system menu.
-     *
-     * @param systemMenuId {int} ID of the system menu to which the role should be added.
-     *
-     * @return {boolean} Returns a boolean indicated whether role is
-     *                   associated with given system menu.
-     */
-    boolean addSystemMenu(int systemMenuId);
-
-    /**
-     * Determine whether given system menu is associated to the role.
-     *
-     * @param systemMenu {SystemMenu} A specified system menu.
-     *
-     * @return {boolean} Returns a boolean indicated whether role
-     *                   is associated with given system menu.
-     */
-    boolean hasSystemMenu(SystemMenu systemMenu);
+    public Role(String name) {
+        this.name = name;
+    }
 
     /**
      * Returns the mysql auto incremented id.
      *
      * @return {Integer} Returns the mysql auto incremented id.
      */
-    Integer getId();
+    public Integer getId() {
+        return id;
+    }
 
     /**
      * Returns the name of the role.
      *
      * @return {String} Returns the name of the role.
      */
-    String getName();
+    public String getName() {
+        return name;
+    }
 
     /**
      * Returns a flag indicated whether current role is deleted.
      *
      * @return {boolean} Returns a flag indicated whether current role is deleted.
      */
-    boolean isDeleted();
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    /**
+     * Returns a string of current role data.
+     * @return {String} Returns a string of current role data.
+     */
+    @Override
+    public String toString() {
+        return "Role{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", deleted=" + deleted +
+                '}';
+    }
+
+
+    /**
+     * Compares between the given object and current role.
+     * Returns a flag to indicate whether they are equal.
+     *
+     * @param o {Object} A role object.
+     * @return {boolean} Returns a flag to indicate whether
+     *                   current role is equal to given object.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Role that = (Role) o;
+        return id.equals(that.id) && name.equals(that.name);
+    }
+
+    /**
+     * Uses object.hash() to hash current role.
+     *
+     * @return {int} Returns a hashcode of current role.
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
+    }
 }

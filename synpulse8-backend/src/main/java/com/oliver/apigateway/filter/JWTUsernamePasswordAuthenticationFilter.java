@@ -1,11 +1,12 @@
-package com.oliver.apigateway.filter;
+package com.oliver.apiGateway.filter;
 
 import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.oliver.apigateway.domain.LoginUser;
-import com.oliver.apigateway.domain.UserForm;
+import com.oliver.apiGateway.domain.LoginUser;
+import com.oliver.apiGateway.domain.UserForm;
 import com.oliver.tenancy.domain.User;
 import com.oliver.util.JWTUtil;
+import com.oliver.util.StatusCode;
 import com.oliver.util.redis.RedisCache;
 import com.oliver.util.ResponseResult;
 import com.oliver.util.redis.RedisKeyCreator;
@@ -118,7 +119,7 @@ public class JWTUsernamePasswordAuthenticationFilter extends UsernamePasswordAut
         log.debug(String.format("Saving %s user's info to redis", username));
         redisCache.saveObject(
                 RedisKeyCreator.createLoginUserKey(userId),
-                user,
+                loginUser,
                 Integer.valueOf(JWT_EXPIRATION_TIME),
                 TimeUnit.MILLISECONDS
         );
@@ -129,7 +130,7 @@ public class JWTUsernamePasswordAuthenticationFilter extends UsernamePasswordAut
         Map<String, String> responseData = new HashMap<>();
         responseData.put("jwt", jwt);
         ResponseResult<Map<String, String>> responseResult =
-                new ResponseResult<>(200, "Log-in successfully", responseData);
+                new ResponseResult<>(StatusCode.OK, "Log-in successfully", responseData);
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.getWriter().print(JSON.toJSON(responseResult));
     }

@@ -11,8 +11,8 @@ CREATE TABLE IF NOT EXISTS `users` (
     `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `username` varchar(50) NOT NULL UNIQUE,
     `password` blob NOT NULL,
-    `type` char(10) NOT NULL COMMENT 'admin/agency/synpulse8User etc',
-    `deleted` tinyint(1) DEFAULT 0 COMMENT 'A flag indicated whether synpulse8User is deleted (1: deleted, 0: active)'
+    `type` varchar(10) NOT NULL COMMENT 'admin/agency/synpulse8User etc',
+    `deleted` tinyint(1) DEFAULT 0 COMMENT 'A flag indicated whether user is deleted (1: deleted, 0: active)'
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `roles` (
