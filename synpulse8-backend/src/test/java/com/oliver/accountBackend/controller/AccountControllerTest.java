@@ -5,12 +5,14 @@ import com.oliver.Synpulse8BackendApplication;
 import com.oliver.accountBackend.domain.Account;
 import com.oliver.accountBackend.mapper.AccountMapper;
 import com.oliver.apiGateway.service.UserService;
+import com.oliver.exceptions.ConflictException;
+import com.oliver.exceptions.ValidationException;
 import com.oliver.faker.AccountFaker;
 import com.oliver.faker.UserFaker;
 import com.oliver.tenancy.domain.User;
 import com.oliver.tenancy.mapper.*;
-import com.oliver.util.ResponseResult;
-import com.oliver.util.StatusCode;
+import com.oliver.response.ResponseResult;
+import com.oliver.response.StatusCode;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -63,7 +65,7 @@ public class AccountControllerTest {
     private String jwt;
 
     @BeforeEach
-    public void setUp() {
+    public void setUp() throws ValidationException, ConflictException {
         User user = UserFaker.createValidUser();
         String username = user.getUsername();
         String password = user.getPassword();
@@ -156,7 +158,7 @@ public class AccountControllerTest {
     }
 
     @Test
-    public void createAccountTestWithUnauthorizedUser() {
+    public void createAccountTestWithUnauthorizedUser() throws ValidationException, ConflictException {
         User user = UserFaker.createValidUser();
         String username = user.getUsername();
         String password = user.getPassword();

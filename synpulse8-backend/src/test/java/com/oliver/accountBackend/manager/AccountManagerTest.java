@@ -55,7 +55,7 @@ public class AccountManagerTest {
     }
     
     @Test
-    public void createAccountWithIBANTest() {
+    public void createAccountWithIBANTest() throws ValidationException, ConflictException {
         Account account =
                 accountManager.createAccount(country, iban);
 
@@ -65,7 +65,7 @@ public class AccountManagerTest {
     }
 
     @Test
-    public void createAccountWithoutIBANTest() {
+    public void createAccountWithoutIBANTest() throws ValidationException, ConflictException {
         Account account =
                 accountManager.createAccount(country, null);
 
@@ -75,7 +75,7 @@ public class AccountManagerTest {
     }
 
     @Test
-    public void createAccountWithDuplicatedIBANTest() {
+    public void createAccountWithDuplicatedIBANTest() throws ValidationException, ConflictException {
         Account account =
                 accountManager.createAccount(country, iban);
         Account savedAccount = accountMapper.getAccountById(account.getId());
@@ -88,7 +88,7 @@ public class AccountManagerTest {
     }
 
     @Test
-    public void assignToUserTest() {
+    public void assignToUserTest() throws ValidationException, ConflictException {
         User fakeUser = UserFaker.createValidUser();
         User user = userManager.createUser(
                 fakeUser.getUsername(),
@@ -108,7 +108,7 @@ public class AccountManagerTest {
     }
 
     @Test
-    public void assignToNonExistingUserTest() {
+    public void assignToNonExistingUserTest() throws ValidationException, ConflictException {
         Account account =
                 accountManager.createAccount(country, iban);
 
@@ -118,7 +118,7 @@ public class AccountManagerTest {
     }
 
     @Test
-    public void assignNonExistingAccountToUserTest() {
+    public void assignNonExistingAccountToUserTest() throws ValidationException, ConflictException {
         User fakeUser = UserFaker.createValidUser();
         User user = userManager.createUser(
                 fakeUser.getUsername(),

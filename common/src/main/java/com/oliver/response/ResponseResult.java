@@ -1,4 +1,4 @@
-package com.oliver.util;
+package com.oliver.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;

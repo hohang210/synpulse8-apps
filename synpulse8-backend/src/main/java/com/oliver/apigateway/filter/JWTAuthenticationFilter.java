@@ -47,24 +47,43 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
         // Parse token and retrieve logged-in user from redis
         String userId;
         LoginUser loginUser;
+        String validJwt;
         try {
             Claims claims = JWTUtil.parseJWT(jwt);
             userId = claims.getSubject();
             loginUser = redisCache.getObject(
                     RedisKeyCreator.createLoginUserKey(userId)
             );
+            validJwt = redisCache.getObject(
+                    RedisKeyCreator.createLoginUserJWTKey(userId)
+            );
         } catch (Exception e) {
-            log.error("Invalid JWT for user - %s");
-            log.error(e.getMessage());
+            log.debug("Invalid JWT - {}", e.getMessage());
+            throw new RuntimeException("Invalid JWT");
+        }
+
+        if (!validJwt.equals(jwt)) {
+            log.info("User - {} 's jwt {} is invalid", userId, jwt);
             throw new RuntimeException(
-                    "Invalid JWT for user - %s"
+                    String.format(
+                            "User - %s 's JWT is invalid",
+                            userId
+                    )
+
             );
         }
 
         if (loginUser == null) {
-            log.error("User - %s is not logged-in");
+            log.info(
+                    "User - {} with jwt - {} is not logged-in",
+                    userId,
+                    jwt
+            );
             throw new RuntimeException(
-                    "User - %s is not logged-in"
+                    String.format(
+                            "User - %s is not logged-in",
+                            userId
+                    )
             );
         }
 

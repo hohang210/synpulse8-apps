@@ -51,7 +51,7 @@ public class AccountServiceTest {
     private AccountMapper accountMapper;
 
     @Autowired
-    private AccountService accountService;
+    private AccountServiceImpl accountService;
 
     @Autowired
     private UserService userService;
@@ -70,7 +70,7 @@ public class AccountServiceTest {
     private LoginUser loginUser;
 
     @BeforeEach
-    public void setUp() {
+    public void setUp() throws ValidationException, ConflictException {
         User user = UserFaker.createValidUser();
         newUser = userService.createUserWithBasicRole(
                 user.getUsername(),
@@ -106,7 +106,7 @@ public class AccountServiceTest {
     }
 
     @Test
-    public void createAccountWithIBANTest() {
+    public void createAccountWithIBANTest() throws ValidationException, ConflictException {
         Account account =
                 accountService.createAccount("Canada", "valid-iban");
 
@@ -116,7 +116,7 @@ public class AccountServiceTest {
     }
 
     @Test
-    public void createAccountWithoutIBANTest() {
+    public void createAccountWithoutIBANTest() throws ValidationException, ConflictException {
         Account account =
                 accountService.createAccount("Canada", null);
 
@@ -126,7 +126,7 @@ public class AccountServiceTest {
     }
 
     @Test
-    public void createAccountWithDuplicatedIBANTest() {
+    public void createAccountWithDuplicatedIBANTest() throws ValidationException, ConflictException {
         Account account =
                 accountService.createAccount("Canada", "valid-iban");
         Account savedAccount = accountMapper.getAccountById(account.getId());
@@ -149,7 +149,7 @@ public class AccountServiceTest {
     }
 
     @Test
-    public void createAccountWithDuplicatedResourceTest() {
+    public void createAccountWithDuplicatedResourceTest() throws ValidationException, ConflictException {
         String roleName = RoleNameStringCreator.getUserRoleName(
                 newUser.getUsername()
         );

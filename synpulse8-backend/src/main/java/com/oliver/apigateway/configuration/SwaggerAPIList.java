@@ -1,8 +1,7 @@
 package com.oliver.apiGateway.configuration;
 
 import com.fasterxml.classmate.TypeResolver;
-import com.google.common.collect.Sets;
-import com.oliver.util.StatusCode;
+import com.oliver.response.StatusCode;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -18,7 +17,6 @@ import springfox.documentation.spi.service.contexts.DocumentationContext;
 import springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import static com.google.common.collect.Sets.*;
@@ -60,12 +58,8 @@ public class SwaggerAPIList implements ApiListingScannerPlugin {
                 ))
                 .responseMessages(
                         newHashSet(
-                                new ResponseMessageBuilder().code(StatusCode.OK)
+                                new ResponseMessageBuilder().code(200)
                                         .message("Log-in successfully")
-                                        .responseModel(new ModelRef("ResponseResult"))
-                                        .build(),
-                                new ResponseMessageBuilder().code(StatusCode.ERROR)
-                                        .message("Failed to login")
                                         .responseModel(new ModelRef("ResponseResult"))
                                         .build()
                         )
@@ -78,7 +72,6 @@ public class SwaggerAPIList implements ApiListingScannerPlugin {
 
     /**
      * Create logout API documentation
-     * @return
      */
     private ApiDescription createLogoutApi() {
         Operation logoutApi = new OperationBuilder(new CachingOperationNameGenerator())
@@ -97,12 +90,8 @@ public class SwaggerAPIList implements ApiListingScannerPlugin {
                 ))
                 .responseMessages(
                         newHashSet(
-                                new ResponseMessageBuilder().code(StatusCode.OK)
+                                new ResponseMessageBuilder().code(200)
                                         .message("Logout successfully")
-                                        .responseModel(new ModelRef("ResponseResult"))
-                                        .build(),
-                                new ResponseMessageBuilder().code(StatusCode.ERROR)
-                                        .message("Failed to logout")
                                         .responseModel(new ModelRef("ResponseResult"))
                                         .build()
                         )

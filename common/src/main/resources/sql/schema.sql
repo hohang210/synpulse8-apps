@@ -32,11 +32,13 @@ CREATE TABLE IF NOT EXISTS `system_menus` (
 CREATE TABLE IF NOT EXISTS `users_roles` (
     `user_id` int(11) NOT NULL,
     `role_id` int(11) NOT NULL,
-    PRIMARY KEY(`user_id`, `role_id`)
+    PRIMARY KEY(`user_id`, `role_id`),
+    INDEX users_roles_role_id (`role_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `roles_menus` (
     `role_id` int(11) NOT NULL,
     `menu_id` int(11) NOT NULL,
-    PRIMARY KEY(`role_id`, `menu_id`)
+    PRIMARY KEY(`role_id`, `menu_id`),
+    INDEX roles_menus_menu_id (`menu_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

@@ -12,7 +12,8 @@ CREATE TABLE IF NOT EXISTS `accounts` (
 CREATE TABLE IF NOT EXISTS `users_accounts` (
     `user_id` int(11) NOT NULL,
     `account_id` int(11) NOT NULL,
-    PRIMARY KEY(`user_id`, `account_id`)
+    PRIMARY KEY(`user_id`, `account_id`),
+    INDEX users_accounts_account_id (`account_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `transactions` (
@@ -21,5 +22,6 @@ CREATE TABLE IF NOT EXISTS `transactions` (
     `account_iban` varchar(30) NOT NULL,
     `value_date` TIMESTAMP NOT NULL,
     `description` TINYTEXT,
-    PRIMARY KEY(`account_iban`, `transaction_id`)
+    PRIMARY KEY(`transaction_id`, `account_iban`),
+    INDEX transactions_account_iban (`account_iban`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;

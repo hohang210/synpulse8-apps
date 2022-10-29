@@ -3,12 +3,12 @@ package com.oliver.apiGateway.filter;
 import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.oliver.apiGateway.domain.LoginUser;
-import com.oliver.apiGateway.domain.UserForm;
+import com.oliver.apiGateway.form.UserForm;
 import com.oliver.tenancy.domain.User;
 import com.oliver.util.JWTUtil;
-import com.oliver.util.StatusCode;
+import com.oliver.response.StatusCode;
 import com.oliver.util.redis.RedisCache;
-import com.oliver.util.ResponseResult;
+import com.oliver.response.ResponseResult;
 import com.oliver.util.redis.RedisKeyCreator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -64,7 +64,6 @@ public class JWTUsernamePasswordAuthenticationFilter extends UsernamePasswordAut
             HttpServletRequest request,
             HttpServletResponse response
     ) throws AuthenticationException {
-        UserForm userForm1;
         try {
             // Read submitted user form from request.
             userForm = new ObjectMapper().readValue(
@@ -120,6 +119,12 @@ public class JWTUsernamePasswordAuthenticationFilter extends UsernamePasswordAut
         redisCache.saveObject(
                 RedisKeyCreator.createLoginUserKey(userId),
                 loginUser,
+                Integer.valueOf(JWT_EXPIRATION_TIME),
+                TimeUnit.MILLISECONDS
+        );
+        redisCache.saveObject(
+                RedisKeyCreator.createLoginUserJWTKey(userId),
+                jwt,
                 Integer.valueOf(JWT_EXPIRATION_TIME),
                 TimeUnit.MILLISECONDS
         );

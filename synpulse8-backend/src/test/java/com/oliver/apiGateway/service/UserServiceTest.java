@@ -28,7 +28,7 @@ public class UserServiceTest {
     private final String password = "admin";
 
     @Autowired
-    private UserService userService;
+    private UserServiceImpl userService;
 
     @Autowired
     private UserMapper userMapper;

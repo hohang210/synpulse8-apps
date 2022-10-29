@@ -1,8 +1,8 @@
 package com.oliver.apiGateway.controller;
-import com.oliver.apiGateway.domain.UserForm;
+import com.oliver.apiGateway.form.UserForm;
 import com.oliver.apiGateway.service.UserService;
-import com.oliver.util.ResponseResult;
-import com.oliver.util.StatusCode;
+import com.oliver.response.ResponseResult;
+import com.oliver.response.StatusCode;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -34,13 +34,12 @@ public class UserController {
      */
     @ApiOperation(
             value = "Creates a new user and associated the user with some basic roles",
+            notes = "Creates a new user and associated the user with some basic roles, " +
+                    "such as creating account and so on",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             response = ResponseResult.class
     )
-    @ApiResponses({
-            @ApiResponse(code = StatusCode.OK, message = "Sign up successfully"),
-            @ApiResponse(code = StatusCode.ERROR, message = "Failed to sign up")
-    })
+    @ApiResponse(code = 200, message = "Request API Success", response = ResponseResult.class)
     @PostMapping(value = "/signUp", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseResult<String> signup(@RequestBody UserForm userForm) {
         try {

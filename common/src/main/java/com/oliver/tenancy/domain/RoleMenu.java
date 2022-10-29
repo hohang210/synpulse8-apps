@@ -6,8 +6,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Alias("RoleMenu")
-public
-class RoleMenu implements Serializable {
+public class RoleMenu implements Serializable {
     private static final long serialVersionUID = -8082701720015385527L;
 
     /**

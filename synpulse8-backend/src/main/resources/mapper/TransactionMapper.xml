@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.oliver.accountBackend.mapper.TransactionMapper">
+    <insert id="saveTransaction" parameterType="Transaction">
+        insert into transactions_${tableNameSuffix} (transaction_id, amount, account_iban, value_date, description)
+        values (#{transaction.transactionId}, #{transaction.amount}, #{transaction.accountIban}, #{transaction.valueDate}, #{transaction.description})
+    </insert>
+
+    <select id="getTransactionByTransactionId" resultType="Transaction">
+        select * from transactions_${tableNameSuffix}
+        where #{transactionId} = transaction_id
+    </select>
+
+    <select id="getTransactionsByAccountIbanAndValueDate" resultType="Transaction">
+        select * from transactions_${tableNameSuffix}
+        where #{iban} = account_iban and value_date between #{startDate} and #{endDate}
+        order by value_date and transaction_id
+    </select>
+
+    <update id="createTransactionTable" statementType="STATEMENT">
+        CREATE TABLE IF NOT EXISTS transactions_${tableNameSuffix} (
+          `transaction_id` varchar(50) NOT NULL PRIMARY KEY COMMENT 'UUID of the transaction',
+          `amount` varchar(20) NOT NULL,
+          `account_iban` varchar(50) NOT NULL,
+          `value_date` DATETIME,
+          `description` TINYTEXT,
+          INDEX transactions_account_iban (`account_iban`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+    </update>
+
+    <update id="dropTransactionTable">
+        DROP TABLE IF EXISTS transactions_${tableNameSuffix}
+    </update>
+</mapper>

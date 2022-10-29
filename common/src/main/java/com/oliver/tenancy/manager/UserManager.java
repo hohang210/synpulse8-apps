@@ -149,9 +149,10 @@ public class UserManager {
      * @param userId {int} User's unique identifier.
      * @param roleId {int} Role's unique identifier.
      *
-     * @return {boolean} Returns a boolean indicated whether user is associated with given role.
+     * @throws ValidationException Throws ValidationExeception
+     *                             if user or role does not exist.
      */
-    public void addRole(int userId, int roleId) {
+    public void addRole(int userId, int roleId) throws ValidationException {
         if (userMapper.getUserById(userId) == null) {
             log.warn(
                     String.format(

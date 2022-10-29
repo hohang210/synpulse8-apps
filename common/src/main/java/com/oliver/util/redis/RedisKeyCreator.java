@@ -15,4 +15,15 @@ public class RedisKeyCreator {
     public static String createLoginUserKey(String userId) {
         return String.format("logged-in user: %s", userId);
     }
+
+    /**
+     * Create a login user's jwt redis key.
+     *
+     * @param userId {String} User's unique identifier.
+     *
+     * @return {String} Returns a login user's jwt redis key.
+     */
+    public static String createLoginUserJWTKey(String userId) {
+        return String.format("logged-in user's jwt: %s", userId);
+    }
 }

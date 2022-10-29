@@ -1,4 +1,4 @@
-package com.oliver.util;
+package com.oliver.response;
 
 public class StatusCode {
     /**

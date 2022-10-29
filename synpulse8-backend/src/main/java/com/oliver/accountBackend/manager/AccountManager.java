@@ -30,6 +30,8 @@ public class AccountManager {
      *
      * @return {Account} Returns a newly-created `Account` if success,
      *                   Otherwise will return null.
+     * @throws ValidationException Throws Validation Exception if country is not supported yet
+     * @throws ConflictException Throws ConflictException if iban has been registered.
      */
     public Account createAccount(
             String country,
@@ -56,14 +58,14 @@ public class AccountManager {
         if (accountMapper.getAccountByIban(iban) != null) {
             log.error(
                     String.format(
-                            "Account's iban - %s has been taken.",
+                            "Account's iban - %s has been registered.",
                             iban
                     )
             );
             throw new ConflictException(
                     "iban",
                     String.format(
-                            "Account's iban - %s has been taken.",
+                            "Account's iban - %s has been registered.",
                             iban
                     )
             );
@@ -81,8 +83,10 @@ public class AccountManager {
      * @param userId {int} An valid system user's id.
      * @param accountId {int} Account's unique identifier.
      *
+     * @throws ValidationException throws ValidationException
+     *                             if user or account does not exist.
      */
-    public void assignToUser(int userId, int accountId) {
+    public void assignToUser(int userId, int accountId) throws ValidationException {
         if (userManager.getUserById(userId) == null) {
             log.warn(
                     String.format(

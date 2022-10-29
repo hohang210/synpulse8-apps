@@ -80,10 +80,10 @@ public class RoleManager {
      * @param roleId {int} Role's unique identifier.
      * @param menuId {int} System menu's unique identifier.
      *
-     * @return {boolean} Returns a boolean indicated whether
-     *                   grants or denies system resource for given role.
+     * @throws ValidationException Throws ValidationExeception if role or
+     *                             system menu does not exist.
      */
-    public void addSystemMenu(int roleId, int menuId) {
+    public void addSystemMenu(int roleId, int menuId) throws ValidationException {
         if (roleMapper.getRoleById(roleId) == null) {
             log.warn(
                     String.format(

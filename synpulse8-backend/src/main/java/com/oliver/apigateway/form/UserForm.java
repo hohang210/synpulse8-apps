@@ -1,5 +1,6 @@
-package com.oliver.apiGateway.domain;
+package com.oliver.apiGateway.form;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -7,6 +8,7 @@ import io.swagger.annotations.ApiModelProperty;
  * User login/signup form
  */
 @ApiModel(description = "A user sign up/log in submit form")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class UserForm {
     /**
      * User's username.

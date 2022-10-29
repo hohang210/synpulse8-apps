@@ -22,7 +22,7 @@ public interface AccountMapper {
      * @param accountId {int} The id of the account to retrieve.
      *
      * @return {Account} Returns either a 'Account' Object representing the
-     *                requested user or 'null' if the ID could not be
+     *                requested account or 'null' if the ID could not be
      *                found.
      */
     Account getAccountById(@Param("accountId") int accountId);
@@ -33,7 +33,7 @@ public interface AccountMapper {
      * @param iban {String} Account's iban
      *
      * @return {Account} Returns either a 'Account' Object representing the
-     *                requested user or 'null' if the ID could not be
+     *                requested account or 'null' if the ID could not be
      *                found.
      */
     Account getAccountByIban(@Param("iban") String iban);

@@ -1,12 +1,14 @@
-package com.oliver.accountBackend.domain;
+package com.oliver.accountBackend.form;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 /**
- * A create account submit form for frontend.
+ * A create account submit form.
  */
 @ApiModel(description = "A creating account submit form")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CreateAccountForm {
     /**
      * Country of the account's currency type.

@@ -118,7 +118,7 @@ public class UserManagerTest {
     }
 
     @Test
-    public void addRoleTest() {
+    public void addRoleTest() throws ValidationException {
         User user = UserFaker.createValidUser();
         userMapper.saveUser(user);
 
@@ -158,7 +158,7 @@ public class UserManagerTest {
     }
 
     @Test
-    public void addDuplicatedRoleToAnUserTest() {
+    public void addDuplicatedRoleToAnUserTest() throws ValidationException {
         User user = UserFaker.createValidUser();
         userMapper.saveUser(user);
 

@@ -12,6 +12,15 @@ spring:
     host: localhost
     port: 3308
     database: 1
+  mvc:
+    path match:
+      matching-strategy: ant_path_matcher
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      auto-offset-reset: earliest
+      enable-auto-commit: true
+      auto-commit-interval: 100
 
 mybatis:
   mapper-locations: classpath*:mapper/*.xml
@@ -28,3 +37,8 @@ jwt:
   key: ad6fbd4b-659d-4cbe-8b2d-9376f5232872
   expiration:
     time: 60000 # 1 * 60 * 1000 (1 minute)
+
+thread-pool:
+  core-pool-size: 8
+  max-pool-size: 16
+  queue-capacity: 5

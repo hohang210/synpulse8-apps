@@ -58,7 +58,7 @@ public class RoleManagerTest {
     }
 
     @Test
-    public void addSystemMenuTest() {
+    public void addSystemMenuTest() throws ValidationException {
         Role role = RoleFaker.createValidRole();
         roleMapper.saveRole(role);
 
