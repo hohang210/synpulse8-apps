@@ -18,6 +18,14 @@
         where #{resource} = resource and #{permission} = permission
     </select>
 
+    <select id="getUserGrantedSystemMenus" resultType="SystemMenu">
+        select distinct * from system_menus where id in (
+            SELECT menu_id  from roles_menus where role_id in (
+                SELECT role_id from users_roles  where user_id = #{userId}
+            )
+        ) and permission = 'GRANT'
+    </select>
+
     <delete id="removeAllSystemMenusFromDB">
         delete from `system_menus`
     </delete>

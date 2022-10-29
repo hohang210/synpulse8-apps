@@ -11,8 +11,8 @@ CREATE TABLE IF NOT EXISTS `users` (
     `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `username` varchar(50) NOT NULL UNIQUE,
     `password` blob NOT NULL,
-    `type` char(10) NOT NULL COMMENT 'admin/agency/synpulse8User etc',
-    `deleted` tinyint(1) DEFAULT 0 COMMENT 'A flag indicated whether synpulse8User is deleted (1: deleted, 0: active)'
+    `type` varchar(10) NOT NULL COMMENT 'admin/agency/synpulse8User etc',
+    `deleted` tinyint(1) DEFAULT 0 COMMENT 'A flag indicated whether user is deleted (1: deleted, 0: active)'
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `roles` (
@@ -32,11 +32,13 @@ CREATE TABLE IF NOT EXISTS `system_menus` (
 CREATE TABLE IF NOT EXISTS `users_roles` (
     `user_id` int(11) NOT NULL,
     `role_id` int(11) NOT NULL,
-    PRIMARY KEY(`user_id`, `role_id`)
+    PRIMARY KEY(`user_id`, `role_id`),
+    INDEX users_roles_role_id (`role_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `roles_menus` (
     `role_id` int(11) NOT NULL,
     `menu_id` int(11) NOT NULL,
-    PRIMARY KEY(`role_id`, `menu_id`)
+    PRIMARY KEY(`role_id`, `menu_id`),
+    INDEX roles_menus_menu_id (`menu_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

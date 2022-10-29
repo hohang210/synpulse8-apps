@@ -1,8 +1,8 @@
-package com.oliver.apigateway.handler;
+package com.oliver.apiGateway.handler;
 
 import com.alibaba.fastjson.JSON;
-import com.oliver.util.ResponseResult;
-import org.springframework.http.HttpStatus;
+import com.oliver.response.ResponseResult;
+import com.oliver.response.StatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
@@ -22,7 +22,7 @@ public class Synpulse8AccessDeniedHandler implements AccessDeniedHandler {
             AccessDeniedException accessDeniedException
     ) throws IOException, ServletException {
         ResponseResult<String> responseData =
-                new ResponseResult<>(HttpStatus.FORBIDDEN.value(), "Unauthorized");
+                new ResponseResult<>(StatusCode.ACCESS_ERROR, "Unauthorized");
 
         response.setStatus(200);
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);

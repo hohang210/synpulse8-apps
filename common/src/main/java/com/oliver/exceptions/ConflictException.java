@@ -1,6 +1,8 @@
 package com.oliver.exceptions;
 
-public class ConflictException extends Exception {
+public class ConflictException extends RuntimeException {
+    private static final long serialVersionUID = -5297767126678246357L;
+
     public ConflictException(String field, String message) {
         super(
                 message == null ?

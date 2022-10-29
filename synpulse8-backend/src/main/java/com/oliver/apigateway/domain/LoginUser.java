@@ -1,6 +1,5 @@
-package com.oliver.apigateway.domain;
+package com.oliver.apiGateway.domain;
 
-import com.oliver.tenancy.domain.Role;
 import com.oliver.tenancy.domain.SystemMenu;
 import com.oliver.tenancy.domain.User;
 import org.springframework.security.core.GrantedAuthority;
@@ -12,9 +11,8 @@ import java.util.Collection;
 import java.util.List;
 
 public class LoginUser implements UserDetails {
+    private static final long serialVersionUID = -3233980433721731028L;
     private User user;
-
-    List<String> permissions = new ArrayList<>();
 
     List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
 
@@ -24,31 +22,18 @@ public class LoginUser implements UserDetails {
      *
      * @param user A logged-in user.
      */
-    public LoginUser(User user) {
+    public LoginUser(User user, List<SystemMenu> systemMenus) {
         this.user = user;
 
-        List<Role> roles = user.showAllRoles();
-        for (Role role : roles) {
-            role.showAllSystemMenus().forEach(
-                    systemMenu -> {
-                        if (systemMenu.getPermission() == SystemMenu.Permission.GRANT) {
-                            String resource = systemMenu.getResource();
-                            permissions.add(resource);
-                            grantedAuthorities.add(
-                                    new SimpleGrantedAuthority(resource)
-                            );
-                        }
-                    }
-            );
-        }
+        systemMenus.forEach(systemMenu -> 
+                grantedAuthorities.add(
+                        new SimpleGrantedAuthority(systemMenu.getResource())
+                )
+        );
     }
 
     public User getUser() {
         return user;
-    }
-
-    public List<String> getPermissions() {
-        return permissions;
     }
 
     @Override

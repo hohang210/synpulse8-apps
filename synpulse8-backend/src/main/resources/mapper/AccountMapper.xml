@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.oliver.accountBackend.mapper.AccountMapper">
+    <insert id="saveAccount" parameterType="Account" useGeneratedKeys="true" keyProperty="id">
+        insert into `accounts` (iban, currency, deleted)
+        values (#{account.iban}, #{account.currency}, #{account.deleted})
+    </insert>
+
+    <select id="getAccountById" resultType="Account">
+        select * from `accounts`
+        where #{accountId} = id
+    </select>
+
+    <select id="getAccountByIban" resultType="Account">
+        select * from `accounts`
+        where #{iban} = iban
+    </select>
+
+
+    <delete id="removeAllAccountsFromDB">
+        delete from `accounts`
+    </delete>
+</mapper>

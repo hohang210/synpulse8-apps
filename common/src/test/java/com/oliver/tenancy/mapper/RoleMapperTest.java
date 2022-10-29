@@ -1,19 +1,20 @@
 package com.oliver.tenancy.mapper;
 
 import com.oliver.CommonApplication;
-import com.oliver.tenancy.RoleFaker;
-import com.oliver.tenancy.SystemMenuFaker;
+import com.oliver.faker.RoleFaker;
+import com.oliver.faker.UserFaker;
 import com.oliver.tenancy.domain.Role;
-import com.oliver.tenancy.domain.SystemMenu;
+import com.oliver.tenancy.domain.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.test.context.ActiveProfiles;
+
+import java.util.List;
 
 @SpringBootTest(classes = CommonApplication.class)
 @ActiveProfiles("test")
@@ -27,15 +28,11 @@ public class RoleMapperTest {
     @Autowired
     private RoleMenuMapper roleMenuMapper;
 
-    private RoleFaker roleFaker;
+    @Autowired
+    private UserMapper userMapper;
 
-    private SystemMenuFaker systemMenuFaker;
-
-    @BeforeEach
-    public void setUp() {
-        roleFaker = new RoleFaker(roleMapper, roleMenuMapper, systemMenuMapper);
-        systemMenuFaker = new SystemMenuFaker(systemMenuMapper);
-    }
+    @Autowired
+    private UserRoleMapper userRoleMapper;
 
     @AfterEach
     public void tearDown() {
@@ -46,12 +43,12 @@ public class RoleMapperTest {
 
     @Test
     public void saveRoleTest() {
-        Role role1 = roleFaker.createValidRole();
+        Role role1 = RoleFaker.createValidRole();
         boolean isRole1Saved = roleMapper.saveRole(role1);
 
         Assertions.assertTrue(isRole1Saved);
 
-        Role role2 = roleFaker.createValidRole();
+        Role role2 = RoleFaker.createValidRole();
         boolean isRole2Saved = roleMapper.saveRole(role2);
 
         Assertions.assertTrue(isRole2Saved);
@@ -59,12 +56,12 @@ public class RoleMapperTest {
 
     @Test
     public void saveDuplicatedRoleTest() {
-        Role role = roleFaker.createValidRole();
+        Role role = RoleFaker.createValidRole();
         boolean isRoleSaved = roleMapper.saveRole(role);
 
         Assertions.assertTrue(isRoleSaved);
 
-        Role duplicatedNameRole = roleFaker.createDuplicatedRole(role);
+        Role duplicatedNameRole = RoleFaker.createDuplicatedRole(role);
 
         Assertions.assertThrows(DuplicateKeyException.class, () -> {
             roleMapper.saveRole(duplicatedNameRole);
@@ -74,7 +71,7 @@ public class RoleMapperTest {
     @Test
     public void saveRoleWithEmptyNameTest() {
         Assertions.assertThrows(DataIntegrityViolationException.class, () -> {
-            roleMapper.saveRole(roleFaker.createEmptyNameRole());
+            roleMapper.saveRole(RoleFaker.createEmptyNameRole());
         });
     }
 
@@ -85,73 +82,14 @@ public class RoleMapperTest {
     }
 
     @Test
-    public void getNonMenuRoleByIdTest() {
-        Role role = roleFaker.createValidRole();
+    public void getRoleByIdTest() {
+        Role role = RoleFaker.createValidRole();
         boolean isRoleSaved = roleMapper.saveRole(role);
 
         Assertions.assertTrue(isRoleSaved);
 
         Role savedRole = roleMapper.getRoleById(role.getId());
         Assertions.assertEquals(role, savedRole);
-    }
-
-    @Test
-    public void getOneSystemMenuRoleByIdTest() {
-        Role role = roleFaker.createValidRole();
-        boolean isRoleSaved = roleMapper.saveRole(role);
-
-        Assertions.assertTrue(isRoleSaved);
-
-        SystemMenu systemMenu =
-                systemMenuFaker.createValidSystemMenuWithDenyPermission();
-        boolean isSystemMenuSaved = systemMenuMapper.saveSystemMenu(systemMenu);
-
-        Assertions.assertTrue(isSystemMenuSaved);
-
-        boolean isRoleSystemMenuSaved =
-                roleMenuMapper.saveRoleSystemMenu(role.getId(), systemMenu.getId());
-        Assertions.assertTrue(isRoleSystemMenuSaved);
-
-        Role savedRole = roleMapper.getRoleById(role.getId());
-
-        Assertions.assertEquals(role.getId(), savedRole.getId());
-        Assertions.assertEquals(role.getName(), savedRole.getName());
-        Assertions.assertTrue(savedRole.hasSystemMenu(systemMenu));
-    }
-
-    @Test
-    public void getTwoSystemMenusRoleByIdTest() {
-        Role role = roleFaker.createValidRole();
-        boolean isRoleSaved = roleMapper.saveRole(role);
-
-        Assertions.assertTrue(isRoleSaved);
-
-        SystemMenu systemMenu1 =
-                systemMenuFaker.createValidSystemMenuWithDenyPermission();
-        boolean isSystemMenu1Saved = systemMenuMapper.saveSystemMenu(systemMenu1);
-
-        Assertions.assertTrue(isSystemMenu1Saved);
-
-        boolean isRoleSystemMenu1Saved =
-                roleMenuMapper.saveRoleSystemMenu(role.getId(), systemMenu1.getId());
-        Assertions.assertTrue(isRoleSystemMenu1Saved);
-
-        SystemMenu systemMenu2 =
-                systemMenuFaker.createValidSystemMenuWithDenyPermission();
-        boolean isSystemMenu2Saved = systemMenuMapper.saveSystemMenu(systemMenu2);
-
-        Assertions.assertTrue(isSystemMenu2Saved);
-
-        boolean isRoleSystemMenu2Saved =
-                roleMenuMapper.saveRoleSystemMenu(role.getId(), systemMenu2.getId());
-        Assertions.assertTrue(isRoleSystemMenu2Saved);
-
-        Role savedRole = roleMapper.getRoleById(role.getId());
-
-        Assertions.assertEquals(role.getId(), savedRole.getId());
-        Assertions.assertEquals(role.getName(), savedRole.getName());
-        Assertions.assertTrue(savedRole.hasSystemMenu(systemMenu1));
-        Assertions.assertTrue(savedRole.hasSystemMenu(systemMenu2));
     }
 
     @Test
@@ -161,8 +99,8 @@ public class RoleMapperTest {
     }
 
     @Test
-    public void getNonMenuRoleByNameTest() {
-        Role role = roleFaker.createValidRole();
+    public void getRoleByNameTest() {
+        Role role = RoleFaker.createValidRole();
         boolean isRoleSaved = roleMapper.saveRole(role);
 
         Assertions.assertTrue(isRoleSaved);
@@ -172,67 +110,81 @@ public class RoleMapperTest {
     }
 
     @Test
-    public void getOneSystemMenuRoleByNameTest() {
-        Role role = roleFaker.createValidRole();
-        boolean isRoleSaved = roleMapper.saveRole(role);
+    public void getUserRoleTest() {
+        User user = UserFaker.createValidUser();
+        userMapper.saveUser(user);
 
-        Assertions.assertTrue(isRoleSaved);
+        Role role = RoleFaker.createValidRole();
+        roleMapper.saveRole(role);
 
-        SystemMenu systemMenu =
-                systemMenuFaker.createValidSystemMenuWithDenyPermission();
-        boolean isSystemMenuSaved = systemMenuMapper.saveSystemMenu(systemMenu);
+        userRoleMapper.saveUserRole(user.getId(), role.getId());
 
-        Assertions.assertTrue(isSystemMenuSaved);
-
-        boolean isRoleSystemMenuSaved =
-                roleMenuMapper.saveRoleSystemMenu(role.getId(), systemMenu.getId());
-        Assertions.assertTrue(isRoleSystemMenuSaved);
-
-        Role savedRole = roleMapper.getRoleByName(role.getName());
-
-        Assertions.assertEquals(role.getId(), savedRole.getId());
-        Assertions.assertEquals(role.getName(), savedRole.getName());
-        Assertions.assertTrue(savedRole.hasSystemMenu(systemMenu));
+        Role savedRole = roleMapper.getUserRole(user.getId(), role.getId());
+        Assertions.assertEquals(role, savedRole);
     }
 
     @Test
-    public void getTwoSystemMenusRoleByNameTest() {
-        Role role = roleFaker.createValidRole();
-        boolean isRoleSaved = roleMapper.saveRole(role);
+    public void getUserRoleTestWithNonExistingUser() {
+        Role role = RoleFaker.createValidRole();
+        roleMapper.saveRole(role);
 
-        Assertions.assertTrue(isRoleSaved);
+        Role savedRole = roleMapper.getUserRole(100, role.getId());
+        Assertions.assertNull(savedRole);
+    }
 
-        SystemMenu systemMenu1 =
-                systemMenuFaker.createValidSystemMenuWithDenyPermission();
-        boolean isSystemMenu1Saved = systemMenuMapper.saveSystemMenu(systemMenu1);
+    @Test
+    public void getUserRoleTestWithNonExistingRole() {
+        User user = UserFaker.createValidUser();
+        userMapper.saveUser(user);
 
-        Assertions.assertTrue(isSystemMenu1Saved);
+        Role savedRole = roleMapper.getUserRole(user.getId(), 100);
+        Assertions.assertNull(savedRole);
+    }
 
-        boolean isRoleSystemMenu1Saved =
-                roleMenuMapper.saveRoleSystemMenu(role.getId(), systemMenu1.getId());
-        Assertions.assertTrue(isRoleSystemMenu1Saved);
+    @Test
+    public void getUserRolesTest() {
+        User user = UserFaker.createValidUser();
+        userMapper.saveUser(user);
 
-        SystemMenu systemMenu2 =
-                systemMenuFaker.createValidSystemMenuWithDenyPermission();
-        boolean isSystemMenu2Saved = systemMenuMapper.saveSystemMenu(systemMenu2);
+        Role role1 = RoleFaker.createValidRole();
+        roleMapper.saveRole(role1);
 
-        Assertions.assertTrue(isSystemMenu2Saved);
+        userRoleMapper.saveUserRole(user.getId(), role1.getId());
 
-        boolean isRoleSystemMenu2Saved =
-                roleMenuMapper.saveRoleSystemMenu(role.getId(), systemMenu2.getId());
-        Assertions.assertTrue(isRoleSystemMenu2Saved);
+        Role role2 = RoleFaker.createValidRole();
+        roleMapper.saveRole(role2);
 
-        Role savedRole = roleMapper.getRoleByName(role.getName());
+        userRoleMapper.saveUserRole(user.getId(), role2.getId());
 
-        Assertions.assertEquals(role.getId(), savedRole.getId());
-        Assertions.assertEquals(role.getName(), savedRole.getName());
-        Assertions.assertTrue(savedRole.hasSystemMenu(systemMenu1));
-        Assertions.assertTrue(savedRole.hasSystemMenu(systemMenu2));
+        List<Role> savedRoles = roleMapper.getUserRoles(user.getId());
+        Assertions.assertEquals(role1, savedRoles.get(0));
+        Assertions.assertEquals(role2, savedRoles.get(1));
+    }
+
+    @Test
+    public void getUserRolesTestWithNonExistingUser() {
+        Role role1 = RoleFaker.createValidRole();
+        roleMapper.saveRole(role1);
+
+        Role role2 = RoleFaker.createValidRole();
+        roleMapper.saveRole(role2);
+
+        List<Role> savedRoles = roleMapper.getUserRoles(100);
+        Assertions.assertEquals(0, savedRoles.size());
+    }
+
+    @Test
+    public void getUserRolesTestWithNonExistingRole() {
+        User user = UserFaker.createValidUser();
+        userMapper.saveUser(user);
+
+        List<Role> savedRoles = roleMapper.getUserRoles(user.getId());
+        Assertions.assertEquals(0, savedRoles.size());
     }
 
     @Test
     public void removeAllRolesFromDBTest() {
-        Role role = roleFaker.createValidRole();
+        Role role = RoleFaker.createValidRole();
         roleMapper.saveRole(role);
         boolean isDeleted = roleMapper.removeAllRolesFromDB();
 

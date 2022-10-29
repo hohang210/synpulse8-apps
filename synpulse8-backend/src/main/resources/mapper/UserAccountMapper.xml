@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.oliver.accountBackend.mapper.UserAccountMapper">
+    <insert id="saveUserAccount">
+        insert into `users_accounts` (user_id, account_id)
+        values (#{userId}, #{accountId})
+    </insert>
+
+    <select id="getUserAccount" resultType="UserAccount">
+        select * from `users_accounts`
+        where #{userId} = user_id and #{accountId} = account_id
+    </select>
+
+    <delete id="removeAllUsersAccountsFromDB">
+        delete from `users_accounts`
+    </delete>
+</mapper>

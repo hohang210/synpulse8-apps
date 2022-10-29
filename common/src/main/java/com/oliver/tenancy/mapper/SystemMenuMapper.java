@@ -4,6 +4,8 @@ import com.oliver.tenancy.domain.SystemMenu;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 @Mapper
 public interface SystemMenuMapper {
     /**
@@ -38,7 +40,21 @@ public interface SystemMenuMapper {
      *                requested system menu or 'null' if the resource and permission
      *                could not be found.
      */
-    SystemMenu getSystemMenuByResourceAndPermission(@Param("resource") String resource, @Param("permission") SystemMenu.Permission permission);
+    SystemMenu getSystemMenuByResourceAndPermission(
+            @Param("resource") String resource,
+            @Param("permission") SystemMenu.Permission permission
+    );
+
+    /**
+     * Attempts to retrieve all system menu of the given user that grants.
+     *
+     * @param userId {int} User's unique identifier.
+     *
+     * @return {SystemMenu} Returns either a 'SystemMenu' Object representing the
+     *                requested system menu or 'null' if the resource and permission
+     *                could not be found.
+     */
+    List<SystemMenu> getUserGrantedSystemMenus(@Param("userId") int userId);
 
     /**
      * Deletes all system menus from db.

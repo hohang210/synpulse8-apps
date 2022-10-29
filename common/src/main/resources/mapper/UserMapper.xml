@@ -7,50 +7,17 @@
         insert into `users` (username, password, type, deleted)
         values (#{user.username}, #{user.password}, #{user.type}, #{user.deleted})
     </insert>
-    
-    <resultMap id="userWithRoles" type="User">
-        <id column="user_id" property="id" />
-        <result column="username" property="username" />
-        <result column="password" property="password" />
-        <result column="type" property="type" />
-        <result column="user_deleted" property="deleted" />
-        <collection property="roles" javaType="list" ofType="Role">
-            <id column="role_id" property="id"/>
-            <result column="name" property="name"/>
-            <result column="role_deleted" property="deleted"/>
-            <collection property="systemMenus" javaType="list" ofType="SystemMenu">
-                <id column="menu_id" property="id" />
-                <result column="permission" property="permission"/>
-                <result column="resource" property="resource"/>
-                <result column="menu_deleted" property="deleted"/>
-            </collection>
-        </collection>
-    </resultMap>
 
-    <!--TODO: Improve this query    -->
-    <select id="getUserById" resultMap="userWithRoles">
-        select users.id user_id, username, password, type, users.deleted user_deleted,
-               roles.id role_id, name, roles.deleted role_deleted,
-               system_menus.id menu_id, permission, resource, system_menus.deleted menu_deleted
+    <select id="getUserById" resultType="User">
+        select *
         from users
-            left join users_roles on users.id = users_roles.user_id
-            left join roles on users_roles.role_id = roles.id
-            left join roles_menus on roles.id = roles_menus.role_id
-            left join system_menus on system_menus.id = roles_menus.menu_id
-        where #{userId} = users.id
+        where #{userId} = id
     </select>
 
-    <!--TODO: Improve this query-->
-    <select id="getUserByUsername" resultMap="userWithRoles">
-        select users.id user_id, username, password, type, users.deleted user_deleted,
-               roles.id role_id, name, roles.deleted role_deleted,
-               system_menus.id menu_id, permission, resource, system_menus.deleted menu_deleted
+    <select id="getUserByUsername" resultType="User">
+        select *
         from users
-                 left join users_roles on users.id = users_roles.user_id
-                 left join roles on users_roles.role_id = roles.id
-                 left join roles_menus on roles.id = roles_menus.role_id
-                 left join system_menus on system_menus.id = roles_menus.menu_id
-        where #{username} = users.username
+        where #{username} = username
     </select>
 
     <delete id="removeAllUsersFromDB">
