@@ -128,7 +128,7 @@ public class SystemMenu implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SystemMenu that = (SystemMenu) o;
-        return id == that.id;
+        return Objects.equals(id, that.id);
     }
 
     /**
