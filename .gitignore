@@ -5,6 +5,9 @@ HELP.md
 **/mvnw
 **/mvnw.cmd
 
+/log
+/log/**
+
 ### STS ###
 .apt_generated
 .classpath
