@@ -1,0 +1,46 @@
+
+version: 2.1
+
+
+jobs:
+  build-and-test:
+    docker:
+      # install java 8
+      - image: cimg/openjdk:8.0.345
+
+      # install mysql
+      - image: mysql:5.7
+        environment:
+          MYSQL_ROOT_PASSWORD: 123456
+          MYSQL_DATABASE: synpulse8_test
+
+      # install redis
+      - image: redis:5.0
+
+      # install zookeeper
+      - image: wurstmeister/zookeeper:latest
+
+      #install kafka
+      - image: wurstmeister/kafka:latest
+        environment:
+          KAFKA_ADVERTISED_HOST_NAME: localhost
+          KAFKA_ADVERTISED_PORT: 9092
+          KAFKA_PORT: 9092
+          KAFKA_ZOOKEEPER_CONNECT: localhost:2181
+          KAFKA_DELETE_TOPIC_ENABLE: true
+
+    steps:
+      # Checkout the code as the first step.
+      - checkout
+
+      - run:
+          name: Build
+          command: mvn -B -DskipTests clean package
+
+      - run:
+          name: Test
+          command: mvn test
+workflows:
+  sample:
+    jobs:
+      - build-and-test
