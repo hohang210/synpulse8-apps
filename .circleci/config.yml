@@ -17,6 +17,17 @@ jobs:
       # install redis
       - image: redis:5.0
 
+      # install zookeeper
+      - image: wurstmeister/zookeeper:latest
+
+      #install kafka
+      - image: wurstmeister/zookeeper:latest
+        environment:
+          KAFKA_ADVERTISED_HOST_NAME: kafka
+          KAFKA_ADVERTISED_LISTENERS=PLAINTEXT: //localhost:9092
+          KAFKA_LISTENERS: PLAINTEXT://0:0:0:0:9092
+          KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+          
     steps:
       # Checkout the code as the first step.
       - checkout
