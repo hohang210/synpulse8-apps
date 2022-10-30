@@ -24,7 +24,7 @@
           `transaction_id` varchar(50) NOT NULL PRIMARY KEY COMMENT 'UUID of the transaction',
           `amount` varchar(20) NOT NULL,
           `account_iban` varchar(50) NOT NULL,
-          `value_date` DATETIME,
+          `value_date` DATE,
           `description` TINYTEXT,
           INDEX transactions_account_iban (`account_iban`)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

@@ -21,7 +21,7 @@ public class TransactionMapperTest {
     @Autowired
     private TransactionMapper transactionMapper;
 
-    private final String TABLE_NAME_SUFFIX = "2022_10_1";
+    private final String TABLE_NAME_SUFFIX = "30";
 
     @BeforeEach
     public void setUp() {
@@ -101,14 +101,6 @@ public class TransactionMapperTest {
         Assertions.assertThrows(DataIntegrityViolationException.class, () -> {
             transactionMapper.saveTransaction(
                     TransactionFaker.createEmptyIbanTransaction(),
-                    TABLE_NAME_SUFFIX
-            );
-        });
-
-
-        Assertions.assertThrows(DataIntegrityViolationException.class, () -> {
-            transactionMapper.saveTransaction(
-                    TransactionFaker.createEmptyValueDateTransaction(),
                     TABLE_NAME_SUFFIX
             );
         });

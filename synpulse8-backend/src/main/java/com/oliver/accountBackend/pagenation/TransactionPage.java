@@ -82,4 +82,14 @@ public class TransactionPage implements Page<Transaction>, Serializable {
     public int getTotalDebit() {
         return totalDebit;
     }
+
+    @Override
+    public String toString() {
+        return "TransactionPage{" +
+                "total=" + total +
+                ", transactions=" + transactions +
+                ", totalCredit=" + totalCredit +
+                ", totalDebit=" + totalDebit +
+                '}';
+    }
 }

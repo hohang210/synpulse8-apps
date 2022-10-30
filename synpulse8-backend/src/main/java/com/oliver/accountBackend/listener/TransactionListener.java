@@ -4,57 +4,69 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.oliver.accountBackend.domain.Transaction;
 import com.oliver.accountBackend.manager.AccountTransactionManager;
-import com.oliver.exceptions.ValidationException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.concurrent.Executor;
 
 @Slf4j
 @RestController
 public class TransactionListener {
-    private static final String TOPIC = "test";
-
     private AccountTransactionManager accountTransactionManager;
+
+    private DataSourceTransactionManager transactionManager;
 
     @Resource(name = "taskExecutor")
     private Executor taskExecutor;
 
-    @KafkaListener(topics = TOPIC, groupId = "save-transaction")
-    public void saveTransactions(ConsumerRecord<String, String> record) {
+    @KafkaListener(topics = "#{'${kafka-topic}'}", groupId = "save-transaction")
+    public void saveTransactions(List<ConsumerRecord<String, String>> records) {
         taskExecutor.execute(() -> {
-            String transactionJson = record.value();
-            long offset = record.offset();
+            DefaultTransactionDefinition definition = new DefaultTransactionDefinition();
+            definition.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
+            TransactionStatus transactionStatus = transactionManager.getTransaction(definition);
 
-            try {
-                Transaction transaction =
-                        new ObjectMapper().readValue(transactionJson, Transaction.class);
-                accountTransactionManager
-                        .saveTransactionsToDBFromKafka(transaction, transactionJson);
-            } catch (JsonProcessingException e) {
-                log.error(
-                        "Failed to parse transaction - {} to current transaction model, offset - {}",
-                        transactionJson,
-                        offset
-                );
-            } catch (ValidationException e) {
-                log.error(
-                        "Current model does not support given transaction - {}, offset - {}",
-                        transactionJson,
-                        offset
-                );
-            } catch (Exception e) {
-                log.error(
-                        "Failed to save transaction - {} to db, offset - {}",
-                        transactionJson,
-                        offset
-                );
-                log.error(e.getMessage());
-            }
+            records.forEach(
+                    record -> {
+                        String transactionJson = record.value();
+                        long offset = record.offset();
+
+                        try {
+                            Transaction transaction =
+                                    new ObjectMapper().readValue(transactionJson, Transaction.class);
+
+
+
+                            accountTransactionManager
+                                    .saveTransactionsToDBFromKafka(transaction, transactionJson);
+
+                        } catch (JsonProcessingException e) {
+                            log.error(
+                                    "Failed to parse transaction - {} to current transaction model, offset - {}",
+                                    transactionJson,
+                                    offset
+                            );
+                        } catch (Exception e) {
+                            log.error(
+                                    "Failed to save transaction - {} to db, offset - {}",
+                                    transactionJson,
+                                    offset
+                            );
+                            log.error(e.getMessage());
+                        }
+                    }
+            );
+
+            transactionManager.commit(transactionStatus);
         });
     }
 
@@ -63,4 +75,8 @@ public class TransactionListener {
         this.accountTransactionManager = accountTransactionManager;
     }
 
+    @Autowired
+    public void setDataSourceTransactionManager(DataSourceTransactionManager dataSourceTransactionManager) {
+        this.transactionManager = dataSourceTransactionManager;
+    }
 }

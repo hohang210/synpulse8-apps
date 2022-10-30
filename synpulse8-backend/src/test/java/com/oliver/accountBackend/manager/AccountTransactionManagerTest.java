@@ -37,7 +37,7 @@ public class AccountTransactionManagerTest {
     }
 
     @Test
-    public void createTransactionTest() throws ValidationException, ConflictException {
+    public void createTransactionTest() throws ValidationException, ConflictException, InterruptedException {
         Transaction fakeTransaction = TransactionFaker.createValidTransaction();
 
         accountManager
@@ -61,6 +61,9 @@ public class AccountTransactionManagerTest {
                         .getTransactionTableNameSuffix(
                                 transaction.getAccountIban()
                         );
+
+        Thread.sleep(2000);
+
         Transaction savedTransaction =
                 transactionMapper
                         .getTransactionByTransactionId(
@@ -89,7 +92,7 @@ public class AccountTransactionManagerTest {
     }
 
     @Test
-    public void createTransactionWithoutTransactionIdAndValueDate() throws ValidationException, ConflictException {
+    public void createTransactionWithoutTransactionIdAndValueDate() throws ValidationException, ConflictException, InterruptedException {
         Transaction fakeTransaction = TransactionFaker.createValidTransaction();
 
         accountManager
@@ -111,6 +114,9 @@ public class AccountTransactionManagerTest {
                         .getTransactionTableNameSuffix(
                                 transaction.getAccountIban()
                         );
+
+        Thread.sleep(2000);
+
         Transaction savedTransaction =
                 transactionMapper
                         .getTransactionByTransactionId(
@@ -226,6 +232,10 @@ public class AccountTransactionManagerTest {
                         1,
                         10
                 );
+
+        transactions.forEach(System.out::println);
+        System.out.println(startDate);
+        System.out.println(endDate);
 
         Assertions.assertEquals(4, transactions.size());
         Assertions.assertTrue(transactions.contains(transaction1));

@@ -21,6 +21,12 @@ spring:
       auto-offset-reset: earliest
       enable-auto-commit: true
       auto-commit-interval: 100
+      max-poll-records: 500
+    listener:
+      type: batch
+      poll-timeout: 1000
+    producer:
+      acks: 1
 
 mybatis:
   mapper-locations: classpath*:mapper/*.xml
@@ -37,6 +43,8 @@ jwt:
   key: ad6fbd4b-659d-4cbe-8b2d-9376f5232872
   expiration:
     time: 60000 # 1 * 60 * 1000 (1 minute)
+
+kafka-topic: test
 
 thread-pool:
   core-pool-size: 8
