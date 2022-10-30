@@ -161,8 +161,8 @@ public class AccountTransactionManagerTest {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
         Date startDate = calendar.getTime();
-        calendar.add(2, Calendar.MINUTE);
 
+        calendar.add(Calendar.DATE, 1);
         Transaction transaction1 = new Transaction(
                 UUID.randomUUID().toString(),
                 "valid-amount1",
@@ -171,7 +171,6 @@ public class AccountTransactionManagerTest {
                 "description"
         );
 
-        calendar.add(Calendar.DATE, 1);
         Transaction transaction2 = new Transaction(
                 UUID.randomUUID().toString(),
                 "valid-amount2",

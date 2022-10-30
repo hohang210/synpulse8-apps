@@ -5,6 +5,7 @@ import com.oliver.accountBackend.domain.Transaction;
 import com.oliver.accountBackend.manager.AccountManager;
 import com.oliver.accountBackend.manager.AccountTransactionManager;
 import com.oliver.accountBackend.mapper.TransactionMapper;
+import com.oliver.accountBackend.pagenation.TransactionPage;
 import com.oliver.exceptions.ConflictException;
 import com.oliver.exceptions.ValidationException;
 import com.oliver.faker.TransactionFaker;
@@ -110,9 +111,11 @@ public class AccountTransactionServiceTest {
                         );
 
 
-        Calendar calendar = new GregorianCalendar();
+        Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
+        Date startDate = calendar.getTime();
 
+        calendar.add(Calendar.DATE, 1);
         Transaction transaction1 = new Transaction(
                 UUID.randomUUID().toString(),
                 "CAD 100",
@@ -121,7 +124,6 @@ public class AccountTransactionServiceTest {
                 "description"
         );
 
-        calendar.add(Calendar.DATE, 1);
         Transaction transaction2 = new Transaction(
                 UUID.randomUUID().toString(),
                 "CAD 200",
@@ -155,6 +157,7 @@ public class AccountTransactionServiceTest {
                 "description"
         );
 
+        Date endDate = calendar.getTime();
         calendar.add(Calendar.DATE, 1);
         Transaction transaction6 = new Transaction(
                 UUID.randomUUID().toString(),
@@ -173,21 +176,18 @@ public class AccountTransactionServiceTest {
         transactionMapper.saveTransaction(transaction5, tableNameSuffix);
         transactionMapper.saveTransaction(transaction6, tableNameSuffix);
 
-        calendar.add(Calendar.DATE, -1);
-        Date endDate = calendar.getTime();
-        calendar.add(Calendar.DATE, -2);
-        Date startDate = calendar.getTime();
-
         Page<Transaction> transactionPage =
                 accountTransactionService.getTransactionsByAccountIbanAndValueDate(
                         fakeTransaction.getAccountIban(),
                         startDate,
                         endDate,
                         1,
-                        2
+                        10
                 );
 
-        Assertions.assertEquals(2, transactionPage.getTotal());
+        Assertions.assertEquals(4, transactionPage.getTotal());
+        Assertions.assertEquals(300, ((TransactionPage)transactionPage).getTotalDebit());
+        Assertions.assertEquals(-150, ((TransactionPage) transactionPage).getTotalCredit());
 
         transactionPage =
                 accountTransactionService.getTransactionsByAccountIbanAndValueDate(
