@@ -21,6 +21,12 @@ spring:
       auto-offset-reset: earliest
       enable-auto-commit: true
       auto-commit-interval: 100
+      max-poll-records: 500
+    listener:
+      type: batch
+      poll-timeout: 1000
+    producer:
+      acks: 1
 
 mybatis:
   mapper-locations: classpath*:mapper/*.xml
@@ -37,6 +43,18 @@ jwt:
   key: ad6fbd4b-659d-4cbe-8b2d-9376f5232872
   expiration:
     time: 28800000 # 8 * 60 * 60 * 1000 (8 hours)
+
+kafka-topic: transactions
+
+logging:
+  level:
+    com:
+      oliver:
+        accountBackend: error
+        apiGateway: error
+  file:
+    name: log/sys.log
+
 
 thread-pool:
   core-pool-size: 8

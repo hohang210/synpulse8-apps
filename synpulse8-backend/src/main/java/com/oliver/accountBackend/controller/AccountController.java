@@ -170,7 +170,7 @@ public class AccountController {
             dataType = "String",
             required = true
     )
-    @GetMapping("/getTransaction/{iban}")
+    @GetMapping("/getTransactions/{iban}")
     @PreAuthorize("hasAuthority('/account/' + #iban)")
     public ResponseResult<Page<Transaction>> getTransactionsByIban(
             @PathVariable("iban") String iban,
@@ -189,6 +189,13 @@ public class AccountController {
             @ApiParam(value = "Page size", required = true)
             @RequestParam("pageSize") Integer pageSize
     ) {
+        log.info("1");
+        log.info("1");
+        log.info("1");
+        log.info("1");
+        log.info("1");
+        log.info("1");
+        log.info("1");
         Page<Transaction> transactionPage;
         try {
             transactionPage = accountTransactionService
@@ -199,6 +206,7 @@ public class AccountController {
                             pageNo,
                             pageSize
                     );
+            log.info(transactionPage.toString());
         } catch (ValidationException e) {
             log.error("Failed to get transactions with iban - {}", iban);
             log.error(e.getMessage());

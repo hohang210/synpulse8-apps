@@ -33,7 +33,7 @@ public class AccountTransactionServiceTest {
     private TransactionMapper transactionMapper;
 
     @Test
-    public void createTransactionTest() throws ValidationException, ConflictException {
+    public void createTransactionTest() throws ValidationException, ConflictException, InterruptedException {
         Transaction fakeTransaction = TransactionFaker.createValidTransaction();
 
         accountManager
@@ -53,6 +53,9 @@ public class AccountTransactionServiceTest {
                         .getTransactionTableNameSuffix(
                                 transaction.getAccountIban()
                         );
+
+        Thread.sleep(2000);
+
         Transaction savedTransaction =
                 transactionMapper
                         .getTransactionByTransactionId(

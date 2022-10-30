@@ -17,6 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
+import static com.oliver.accountBackend.configuration.EnvironmentConstants.KAFKA_TOPIC;
+
 @Slf4j
 @Service
 public class AccountTransactionManager {
@@ -111,9 +113,8 @@ public class AccountTransactionManager {
                 valueDate,
                 description
         );
-//        transactionMapper.saveTransaction(transaction, tableNameSuffix);
 
-        kafkaTemplate.send("test", transactionId, JSON.toJSONString(transaction));
+        kafkaTemplate.send(KAFKA_TOPIC, transactionId, JSON.toJSONString(transaction));
         return transaction;
     }
 
@@ -213,6 +214,23 @@ public class AccountTransactionManager {
         }
 
         String tableNameSuffix = getTransactionTableNameSuffix(accountIban);
+
+        Transaction consumedTransaction =
+                transactionMapper
+                        .getTransactionByTransactionId(
+                                transactionId,
+                                tableNameSuffix
+                        );
+        if (consumedTransaction != null) {
+            throw new ConflictException(
+                    "transactionId",
+                    String.format(
+                            "Transaction - %s has been consumed",
+                            transactionId
+                    )
+            );
+        }
+
         transactionMapper.saveTransaction(transaction, tableNameSuffix);
     }
 
