@@ -13,7 +13,10 @@ jobs:
         environment:
           MYSQL_ROOT_PASSWORD: 123456
           MYSQL_DATABASE: synpulse8_test
-          
+
+      # install redis
+      - image: redis:5.0
+
     steps:
       # Checkout the code as the first step.
       - checkout
