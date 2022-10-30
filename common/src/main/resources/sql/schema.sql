@@ -1,12 +1,3 @@
-DROP TABLE IF EXISTS `users`;
-DROP TABLE IF EXISTS `roles`;
-DROP TABLE IF EXISTS `systems_menus`;
-DROP TABLE IF EXISTS `system_menus`;
-DROP TABLE IF EXISTS `users_roles`;
-DROP TABLE IF EXISTS `user_roles`;
-DROP TABLE IF EXISTS `role_menus`;
-DROP TABLE IF EXISTS `roles_menus`;
-
 CREATE TABLE IF NOT EXISTS `users` (
     `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `username` varchar(50) NOT NULL UNIQUE,
