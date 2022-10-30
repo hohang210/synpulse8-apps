@@ -4,12 +4,10 @@ import com.alibaba.fastjson.JSON;
 import com.oliver.Synpulse8BackendApplication;
 import com.oliver.accountBackend.domain.Account;
 import com.oliver.accountBackend.domain.Transaction;
-import com.oliver.accountBackend.manager.AccountManager;
 import com.oliver.accountBackend.manager.AccountTransactionManager;
 import com.oliver.accountBackend.mapper.AccountMapper;
 import com.oliver.accountBackend.mapper.TransactionMapper;
 import com.oliver.accountBackend.mapper.UserAccountMapper;
-import com.oliver.accountBackend.pagenation.TransactionPage;
 import com.oliver.apiGateway.service.UserService;
 import com.oliver.exceptions.ConflictException;
 import com.oliver.exceptions.ValidationException;
@@ -69,9 +67,6 @@ public class AccountControllerTest {
 
     @Autowired
     private UserService userService;
-
-    @Autowired
-    private AccountManager accountManager;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -328,8 +323,6 @@ public class AccountControllerTest {
         transactionMapper.saveTransaction(transaction5, tableNameSuffix);
         transactionMapper.saveTransaction(transaction6, tableNameSuffix);
 
-//        localhost:8889/account/getTransaction/valid-iban?startDate=30-10-2022&endDate=31-10-2022&pageNo=1&pageSize=10
-
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
         String startDateStr = simpleDateFormat.format(startDate);
         String endDateStr = simpleDateFormat.format(endDate);
@@ -343,7 +336,6 @@ public class AccountControllerTest {
         sb.append("&endDate=");
         sb.append(endDateStr);
         sb.append("&pageNo=1&pageSize=10");
-        System.out.println(sb.toString());
 
         HttpHeaders getTransactionsHeaders = new HttpHeaders();
         getTransactionsHeaders.add("Authorization", jwt);
@@ -357,23 +349,70 @@ public class AccountControllerTest {
                 ResponseResult.class
         );
 
-        TransactionPage transactionPage = (TransactionPage) exchange.getBody().getData();
-        List<Transaction> transactions = transactionPage.getData();
+        Integer code = exchange.getBody().getCode();
 
-        int debit = transactionPage.getTotalDebit();
-        int credit = transactionPage.getTotalCredit();
-
-        Assertions.assertEquals(300, debit);
-        Assertions.assertEquals(-100, credit);
-
-        Assertions.assertEquals(4, transactions.size());
-        Assertions.assertTrue(transactions.contains(transaction1));
-        Assertions.assertTrue(transactions.contains(transaction2));
-        Assertions.assertTrue(transactions.contains(transaction4));
-        Assertions.assertTrue(transactions.contains(transaction5));
-
+        Assertions.assertEquals(StatusCode.OK, code);
 
         transactionMapper.dropTransactionTable(tableNameSuffix);
         transactionMapper.dropTransactionTable(validIBANTableNameSuffix);
+    }
+
+    @Test
+    public void getTransactionsByAccountIbanAndValueDateWithUnAuthorizedUser() throws ValidationException, ConflictException {
+        Transaction fakeTransaction = TransactionFaker.createValidTransaction();
+
+        String tableNameSuffix =
+                accountTransactionManager
+                        .getTransactionTableNameSuffix(
+                                fakeTransaction.getAccountIban()
+                        );
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+
+        Transaction transaction1 = new Transaction(
+                UUID.randomUUID().toString(),
+                "CAD -100",
+                fakeTransaction.getAccountIban(),
+                calendar.getTime(),
+                "description-1"
+        );
+
+        transactionMapper.createTransactionTable(tableNameSuffix);
+        transactionMapper.saveTransaction(transaction1, tableNameSuffix);
+
+        Date startDate = calendar.getTime();
+        Date endDate = calendar.getTime();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        String startDateStr = simpleDateFormat.format(startDate);
+        String endDateStr = simpleDateFormat.format(endDate);
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(baseUrl);
+        sb.append("/account/getTransactions/");
+        sb.append(fakeTransaction.getAccountIban());
+        sb.append("?startDate=");
+        sb.append(startDateStr);
+        sb.append("&endDate=");
+        sb.append(endDateStr);
+        sb.append("&pageNo=1&pageSize=10");
+
+        HttpHeaders getTransactionsHeaders = new HttpHeaders();
+        getTransactionsHeaders.add("Authorization", jwt);
+        getTransactionsHeaders.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<String> getTransactionsRequest = new HttpEntity<>(null, getTransactionsHeaders);
+
+        ResponseEntity<ResponseResult> exchange = restTemplate.exchange(
+                sb.toString(),
+                HttpMethod.GET,
+                getTransactionsRequest,
+                ResponseResult.class
+        );
+
+        Integer code = exchange.getBody().getCode();
+
+        Assertions.assertEquals(StatusCode.ACCESS_ERROR, code);
+
+        transactionMapper.dropTransactionTable(tableNameSuffix);
     }
 }
