@@ -30,11 +30,16 @@ jobs:
     steps:
       # Checkout the code as the first step.
       - checkout
-
+      
+      - run:
+          name: ENV-d
+          command: echo ${MYSQL_PASSWORD}
+      # Build
       - run:
           name: Build
           command: mvn -B -DskipTests clean package
 
+      # Test
       - run:
           name: Test
           command: mvn test
