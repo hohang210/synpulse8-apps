@@ -30,11 +30,13 @@ jobs:
     steps:
       # Checkout the code as the first step.
       - checkout
-
+      
+      # Build
       - run:
           name: Build
           command: mvn -B -DskipTests clean package
 
+      # Test
       - run:
           name: Test
           command: mvn test

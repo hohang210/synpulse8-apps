@@ -97,7 +97,7 @@ public class AccountController {
                     "sends the transaction to kafka.  The newly created-transaction " +
                     "will not be saved to db directly.  There will be a listener " +
                     "consumes the transaction and saved the transaction into db." +
-                    "(For test use only)",
+                    "(For test use)",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             response = ResponseResult.class
     )
