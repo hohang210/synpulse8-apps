@@ -8,6 +8,8 @@ HELP.md
 /log
 /log/**
 
+**/setEnv.sh
+
 ### STS ###
 .apt_generated
 .classpath

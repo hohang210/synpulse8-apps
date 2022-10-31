@@ -80,7 +80,7 @@ public class AccountController {
      * Attempts to create a transaction under given account.
      * and sends the transaction to kafka.
      * <p>
-     * The newly created-transaction will not be saved to db.
+     * The newly created-transaction will not be saved to db directly.
      *
      * @param iban {int} Account's iban.
      * @param createTransactionForm {CreateTransactionForm} A form includes
@@ -95,7 +95,9 @@ public class AccountController {
             value = "Attempts to create a transaction under given account.",
             notes = "Attempts to create a transaction under given account and " +
                     "sends the transaction to kafka.  The newly created-transaction " +
-                    "will not be saved to db.",
+                    "will not be saved to db directly.  There will be a listener " +
+                    "consumes the transaction and saved the transaction into db." +
+                    "(For test use only)",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             response = ResponseResult.class
     )
@@ -213,9 +215,6 @@ public class AccountController {
                 transactionPage
         );
     }
-
-
-
 
     @Autowired
     public void setAccountService(AccountService accountService) {
