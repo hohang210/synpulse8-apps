@@ -34,7 +34,7 @@ To run it on your local, please follow the followed steps:
 ## Architecture
 The followed picture described how the servers communicates between each other.
 
-![Architecture.png](./images/Architecture.png)
+![Architecture.png](https://github.com/hohang210/synpulse8-apps/blob/master/images/Architecture.png)
 
 Currently, API Gateway server and Account backend are still in one server, but in different packages.
 
@@ -73,7 +73,7 @@ Here is brief list of resources in the system.
 - /account/iban for creating transactions or retrieving any info under the given iban.
 
 ## Implementation
-![RBAC.png](./images/RBAC.png)
+![RBAC.png](https://github.com/hohang210/synpulse8-apps/blob/master/images/RBAC.png)
 - `User` object have some properties defined such as id, username, password and so on.
 - `UserRole` object is used to determined what kind of roles a user has.
 - `Role` object has a user-friendly name and applied to a set of `SystemMenu` objects by `RoleMenu` object.
@@ -81,7 +81,7 @@ Here is brief list of resources in the system.
 - LoginUser object will receive a user object and retrieve all the permission of the given user.
 
 ## Authentication
-![AuthenticationFilters.png](./images/AuthenticationFilters.png)
+![AuthenticationFilters.png](https://github.com/hohang210/synpulse8-apps/blob/master/images/AuthenticationFilters.png)
 - First of all, every request will go through the `JWTUsernamePasswordAuthenticationFilter` filter first.  
   - This filter will retrieve a JWT from the header with attribute `Authorization`.  
   - Next step, this filter will validate the JWT and retrieve an authenticated user from redis based on the JWT.  Will throw out a runtime exception if JWT 
