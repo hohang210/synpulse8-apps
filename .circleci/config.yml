@@ -1,6 +1,4 @@
-
 version: 2.1
-
 
 jobs:
   build-and-test:
@@ -41,6 +39,6 @@ jobs:
           name: Test
           command: mvn test
 workflows:
-  sample:
+  synpulse8-apps:
     jobs:
       - build-and-test
