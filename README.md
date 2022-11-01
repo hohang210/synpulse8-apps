@@ -1,7 +1,7 @@
 # synpulse8-apps
 [CircleCI Link](https://app.circleci.com/pipelines/github/hohang210?filter=all) | 
 [Docker Image](https://hub.docker.com/repository/docker/hohang210/synpulse8) | 
-[Kubernetes Config]()
+[Kubernetes Config](https://github.com/hohang210/synpulse8-apps/tree/master/kubernetes/synpulse8-backend)
 
 This repository contains an e-banking portal implemented by Spring boot, Spring MVC, Spring security, Mybatis.  
 This e-banking portal provides APIs for authenticated and authorized user to create bank account 
@@ -164,7 +164,7 @@ Provides a log out API for user to log out.  Deletes the logged-out user's info 
 
 
 ### Implementation
-![AccountOperations.png](images/AccountOperations.png)
+![AccountOperations.png](https://github.com/hohang210/synpulse8-apps/blob/master/images/AccountOperations.png)
 - `Account` have some properties defined such as id, iban and currency.  And iban is a unique account 
    number for the usage of transferring money between different accounts.
 - `UserAccount` object is used to link the `User` object and `Account` object.  Each user can have one or more accounts.
