@@ -1,5 +1,5 @@
 kind: Service
-apiVersion: v0
+apiVersion: v1
 metadata:
   name: synpulse8-backend
   namespace: synpulse8

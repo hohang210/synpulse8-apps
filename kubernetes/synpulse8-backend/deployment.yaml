@@ -1,4 +1,4 @@
-apiVersion: apps/v0
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: synpulse8-backend
@@ -13,8 +13,6 @@ spec:
       labels:
         app: synpulse8-backend
     spec:
-      imagePullPolicy:
-        - name: regcred
       containers:
         - name: synpulse8-backend
           image: hohang210/synpulse8:0.0.2
@@ -27,45 +25,40 @@ spec:
             - name: MYSQL_HOST
               valueFrom:
                 secretKeyRef:
-                  name: synpluse8-credentials
+                  name: synpulse8-credentials
                   key: mysqlHost
             - name: MYSQL_PORT
               valueFrom:
                 secretKeyRef:
-                  name: synpluse8-credentials
+                  name: synpulse8-credentials
                   key: mysqlPORT
             - name: MYSQL_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: synpluse8-credentials
+                  name: synpulse8-credentials
                   key: mysqlUsername
             - name: MYSQL_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: synpluse8-credentials
+                  name: synpulse8-credentials
                   key: mysqlPassword
             - name: REDIS_HOST
               valueFrom:
                 secretKeyRef:
-                  name: synpluse8-credentials
+                  name: synpulse8-credentials
                   key: redisHost
             - name: REDIS_PORT
               valueFrom:
                 secretKeyRef:
-                  name: synpluse8-credentials
-                  key: redisPort
-            - name: REDIS_PORT
-              valueFrom:
-                secretKeyRef:
-                  name: synpluse8-credentials
+                  name: synpulse8-credentials
                   key: redisPort
             - name: KAFKA_HOST
               valueFrom:
                 secretKeyRef:
-                  name: synpluse8-credentials
+                  name: synpulse8-credentials
                   key: kafkaHost
             - name: KAFKA_PORT
               valueFrom:
                 secretKeyRef:
-                  name: synpluse8-credentials
+                  name: synpulse8-credentials
                   key: kafkaPort
