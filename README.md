@@ -29,8 +29,14 @@ To run it on your local, please follow the followed steps:
   - Run `docker pull wurstmeister/kafka:latest` to pull a kafka image
   - Run `docker run -d --network=synpulse8 --name kafka -p 9092:9092 -e KAFKA_ADVERTISED_HOST_NAME=kafka -e KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092 -e KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9092 -e KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181 wurstmeister/kafka` to create and run kafka container
 - Clone the repo and setup env variable
+  - export MYSQL_HOST=localhost
+  - export MYSQL_PORT=3306
   - export MYSQL_PASSWORD=your_password
   - export MYSQL_USERNAME=root
+  - export REDIS_HOST=localhost
+  - export REDIS_PORT=6379
+  - export KAFKA_HOST=localhost
+  - export KAFKA_PORT=9092
 - Now you can run the application.
 
 ## Architecture

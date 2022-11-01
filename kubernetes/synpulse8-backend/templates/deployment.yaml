@@ -1,0 +1,71 @@
+apiVersion: apps/v0
+kind: Deployment
+metadata:
+  name: synpulse8-backend
+  namespace: synpulse8
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: synpulse8-backend
+  template:
+    metadata:
+      labels:
+        app: synpulse8-backend
+    spec:
+      imagePullPolicy:
+        - name: regcred
+      containers:
+        - name: synpulse8-backend
+          image: hohang210/synpulse8:0.0.2
+          imagePullPolicy: IfNotPresent
+          ports: 
+            - name: http
+              containerPort: 8889
+              protocol: TCP
+          env:
+            - name: MYSQL_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: synpluse8-credentials
+                  key: mysqlHost
+            - name: MYSQL_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: synpluse8-credentials
+                  key: mysqlPORT
+            - name: MYSQL_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: synpluse8-credentials
+                  key: mysqlUsername
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: synpluse8-credentials
+                  key: mysqlPassword
+            - name: REDIS_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: synpluse8-credentials
+                  key: redisHost
+            - name: REDIS_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: synpluse8-credentials
+                  key: redisPort
+            - name: REDIS_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: synpluse8-credentials
+                  key: redisPort
+            - name: KAFKA_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: synpluse8-credentials
+                  key: kafkaHost
+            - name: KAFKA_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: synpluse8-credentials
+                  key: kafkaPort
