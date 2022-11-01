@@ -44,8 +44,6 @@ public class TransactionListener {
                             Transaction transaction =
                                     new ObjectMapper().readValue(transactionJson, Transaction.class);
 
-
-
                             accountTransactionManager
                                     .saveTransactionsToDBFromKafka(transaction, transactionJson);
 

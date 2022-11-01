@@ -17,6 +17,10 @@ public interface AccountTransactionService {
      * and sends the transaction to kafka.
      * <p>
      * The newly created-transaction will not be saved to db.
+     * <p>
+     * This function does not have the functionality to transfer money
+     * from one account to another account.  This function is only used for
+     * create a fake transaction for testing usage.
      *
      * @param amount {int} Transaction's amount.
      * @param accountIban {String} Account's iban.

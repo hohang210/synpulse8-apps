@@ -81,6 +81,10 @@ public class AccountController {
      * and sends the transaction to kafka.
      * <p>
      * The newly created-transaction will not be saved to db directly.
+     * <p>
+     * This API does not have the functionality to transfer money
+     * from one account to another account.  This API is only used for
+     * creating a fake transaction for testing usage.
      *
      * @param iban {int} Account's iban.
      * @param createTransactionForm {CreateTransactionForm} A form includes
@@ -94,10 +98,12 @@ public class AccountController {
     @ApiOperation(
             value = "Attempts to create a transaction under given account.",
             notes = "Attempts to create a transaction under given account and " +
-                    "sends the transaction to kafka.  The newly created-transaction " +
+                    "sends the transaction to kafka.  The newly-created transaction " +
                     "will not be saved to db directly.  There will be a listener " +
-                    "consumes the transaction and saved the transaction into db." +
-                    "(For test use)",
+                    "consumes the transaction and saves the transaction into db." +
+                    "This API does not have the functionality to transfer money " +
+                    "from one account to another account.  This API is only used for " +
+                    "creating a fake transaction for testing usage.",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             response = ResponseResult.class
     )

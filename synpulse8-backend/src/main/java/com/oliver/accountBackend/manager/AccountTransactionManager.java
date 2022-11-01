@@ -244,7 +244,7 @@ public class AccountTransactionManager {
      *                  based on the value date of the transaction.
      */
     public String getTransactionTableNameSuffix(String accountIban) {
-        int hashCode = Math.abs(Objects.hash(accountIban) % 4000);
+        int hashCode = Math.abs(Objects.hash(accountIban) % 5000);
         return String.valueOf(hashCode);
     }
 
