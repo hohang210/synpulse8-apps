@@ -37,7 +37,7 @@ To run it on your local, please follow the followed steps:
   - export REDIS_PORT=6379
   - export KAFKA_HOST=localhost
   - export KAFKA_PORT=9092
-- Now you can run the application.
+- Now you can run the application and visit `http://localhost:8889/swagger-ui.html` to try it out.
 
 ## Docker Image
 Run `docker pull hohang210/synpulse8` can pull a image of current app.

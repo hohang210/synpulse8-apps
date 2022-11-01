@@ -20,7 +20,7 @@ public interface TransactionMapper {
      *                        - 03 representing the month of transaction
      *                        - 1 representing the reminder of
      *                          hash value of transaction id divided by
-     *                          4000
+     *                          5000
      *
      */
     void createTransactionTable(@Param("tableNameSuffix") String tableNameSuffix);
@@ -35,7 +35,7 @@ public interface TransactionMapper {
      *                        - 03 representing the month of transaction
      *                        - 1 representing the reminder of
      *                          hash value of transaction id divided by
-     *                          4000
+     *                          5000
      *
      * @return {boolean} Returns a boolean indicated whether
      *                   given transaction is saved.
@@ -55,7 +55,7 @@ public interface TransactionMapper {
      *                        - 03 representing the month of transaction
      *                        - 1 representing the reminder of
      *                          hash value of transaction id divided by
-     *                          4000
+     *                          5000
      *
      * @return {Transaction} Returns either a 'Transaction' Object representing the
      *                requested transaction or 'null' if the ID could not be
@@ -78,7 +78,7 @@ public interface TransactionMapper {
      *                        - 03 representing the month of transaction
      *                        - 1 representing the reminder of
      *                          hash value of transaction id divided by
-     *                          4000
+     *                          5000
      *
      *
      * @return {List<Transaction>} Returns either a 'Transaction' Object representing the
@@ -101,7 +101,7 @@ public interface TransactionMapper {
      *                        - 03 representing the month of transaction
      *                        - 1 representing the reminder of
      *                          hash value of transaction id divided by
-     *                          4000
+     *                          5000
      *
      * @return {boolean} Returns a boolean indicated whether
      *                   the transaction table are removed.
