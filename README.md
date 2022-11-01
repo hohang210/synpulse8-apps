@@ -39,6 +39,13 @@ To run it on your local, please follow the followed steps:
   - export KAFKA_PORT=9092
 - Now you can run the application.
 
+## Docker Image
+Run `docker pull hohang210/synpulse8` can pull a image of current app.
+
+## Kubernetes
+Provides a config for deploying the current app to a kubernetes.  However, still need to create a couple of configs for 
+mysql, redis, zookeeper and kafka.
+
 ## Architecture
 The followed picture described how the servers communicates between each other.
 
