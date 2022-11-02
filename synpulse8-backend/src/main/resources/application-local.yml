@@ -47,11 +47,6 @@ jwt:
 kafka-topic: transactions
 
 logging:
-  level:
-    com:
-      oliver:
-        accountBackend: error
-        apiGateway: error
   file:
     name: log/sys.log
 

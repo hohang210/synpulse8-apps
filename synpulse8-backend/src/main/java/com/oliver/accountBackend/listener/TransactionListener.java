@@ -30,6 +30,10 @@ public class TransactionListener {
 
     @KafkaListener(topics = "#{'${kafka-topic}'}", groupId = "save-transaction")
     public void saveTransactions(List<ConsumerRecord<String, String>> records) {
+        if (records.isEmpty()) {
+            return;
+        }
+
         taskExecutor.execute(() -> {
             DefaultTransactionDefinition definition = new DefaultTransactionDefinition();
             definition.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
