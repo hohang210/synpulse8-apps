@@ -1,6 +1,6 @@
 # synpulse8-apps
 [CircleCI Link](https://app.circleci.com/pipelines/github/hohang210?filter=all) | 
-[Docker Image](https://hub.docker.com/repository/docker/hohang210/synpulse8) | 
+[Docker Image](https://hub.docker.com/r/hohang210/synpulse8) | 
 [Kubernetes Config](https://github.com/hohang210/synpulse8-apps/tree/master/kubernetes/synpulse8-backend)
 
 This repository contains an e-banking portal implemented by Spring boot, Spring MVC, Spring security, Mybatis.  
