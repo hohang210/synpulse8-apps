@@ -48,7 +48,7 @@ public class AccountTransactionManagerTest {
 
         Transaction transaction = accountTransactionManager.createTransaction(
                 fakeTransaction.getTransactionId(),
-                300,
+                300d,
                 fakeTransaction.getAccountIban(),
                 fakeTransaction.getValueDate(),
                 fakeTransaction.getDescription()
@@ -83,7 +83,7 @@ public class AccountTransactionManagerTest {
         Assertions.assertThrows(ValidationException.class, () -> {
             accountTransactionManager.createTransaction(
                     fakeTransaction.getTransactionId(),
-                    300,
+                    300d,
                     fakeTransaction.getAccountIban(),
                     fakeTransaction.getValueDate(),
                     fakeTransaction.getDescription()
@@ -103,7 +103,7 @@ public class AccountTransactionManagerTest {
 
         Transaction transaction = accountTransactionManager.createTransaction(
                 null,
-                500,
+                500d,
                 fakeTransaction.getAccountIban(),
                 null,
                 fakeTransaction.getDescription()

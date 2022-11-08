@@ -29,6 +29,7 @@ public class ThreadPoolExecutorConfiguration {
         executor.setQueueCapacity(queueCapacity);
         executor.setThreadNamePrefix("account-backend-service");
         executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
+        executor.setWaitForTasksToCompleteOnShutdown(true);
 
         executor.initialize();
         return executor;

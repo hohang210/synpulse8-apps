@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executor;
 
 @Slf4j
@@ -29,18 +30,26 @@ public class TransactionListener {
     private Executor taskExecutor;
 
     @KafkaListener(topics = "#{'${kafka-topic}'}", groupId = "save-transaction")
-    public void saveTransactions(List<ConsumerRecord<String, String>> records) {
+    public void saveTransactions(List<ConsumerRecord<String, String>> records) throws InterruptedException {
         if (records.isEmpty()) {
             return;
         }
 
-        taskExecutor.execute(() -> {
-            DefaultTransactionDefinition definition = new DefaultTransactionDefinition();
-            definition.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
-            TransactionStatus transactionStatus = transactionManager.getTransaction(definition);
+        int messagesSize = records.size();
+        CountDownLatch countDownLatch = new CountDownLatch(5);
 
-            records.forEach(
-                    record -> {
+        for (int i = 0; i < 5; i++) {
+            int startPosition = i * 200;
+            int endPosition = (i + 1) * 200;
+
+            taskExecutor.execute(() -> {
+                if (startPosition <= messagesSize) {
+                    DefaultTransactionDefinition definition = new DefaultTransactionDefinition();
+                    definition.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
+                    TransactionStatus transactionStatus = transactionManager.getTransaction(definition);
+
+                    for (int j = startPosition; j < Math.min(endPosition, messagesSize); j++) {
+                        ConsumerRecord<String, String> record = records.get(j);
                         String transactionJson = record.value();
                         long offset = record.offset();
 
@@ -66,10 +75,15 @@ public class TransactionListener {
                             log.error(e.getMessage());
                         }
                     }
-            );
 
-            transactionManager.commit(transactionStatus);
-        });
+                    transactionManager.commit(transactionStatus);
+                }
+
+                countDownLatch.countDown();
+            });
+        }
+
+        countDownLatch.await();
     }
 
     @Autowired

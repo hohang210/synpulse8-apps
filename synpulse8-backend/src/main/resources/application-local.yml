@@ -54,6 +54,6 @@ logging:
 thread-pool:
   core-pool-size: 8
   max-pool-size: 16
-  queue-capacity: 5
+  queue-capacity: 50
 
 

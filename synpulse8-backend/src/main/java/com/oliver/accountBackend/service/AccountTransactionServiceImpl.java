@@ -21,7 +21,7 @@ class AccountTransactionServiceImpl implements AccountTransactionService {
 
     @Override
     public Transaction createTransaction(
-            int amount,
+            double amount,
             String accountIban,
             String description
     ) throws ValidationException, ConflictException {

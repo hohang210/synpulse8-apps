@@ -22,7 +22,7 @@ public interface AccountTransactionService {
      * from one account to another account.  This function is only used for
      * create a fake transaction for testing usage.
      *
-     * @param amount {int} Transaction's amount.
+     * @param amount {double} Transaction's amount.
      * @param accountIban {String} Account's iban.
      * @param description {String} Additional description of the transaction.
      *
@@ -33,7 +33,7 @@ public interface AccountTransactionService {
      */
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     Transaction createTransaction(
-            int amount,
+            double amount,
             String accountIban,
             String description
     ) throws ValidationException, ConflictException;

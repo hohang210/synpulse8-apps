@@ -23,12 +23,12 @@ public class TransactionPage implements Page<Transaction>, Serializable {
     /**
      * Total credit value of current page's transactions.
      */
-    private int totalCredit = 0;
+    private double totalCredit = 0;
 
     /**
      * Total debit value of current page's transactions.
      */
-    private int totalDebit = 0;
+    private double totalDebit = 0;
 
     public TransactionPage(List<Transaction> transactions) {
         this.transactions = transactions;
@@ -46,7 +46,7 @@ public class TransactionPage implements Page<Transaction>, Serializable {
         transactions.forEach(transaction -> {
             String amountWithCurrency = transaction.getAmount();
 
-            int amount = Integer.parseInt(amountWithCurrency.split(" ")[1]);
+            double amount = Double.parseDouble(amountWithCurrency.split(" ")[1]);
             if (amount > 0) {
                 totalDebit += amount;
             } else {
@@ -70,7 +70,7 @@ public class TransactionPage implements Page<Transaction>, Serializable {
      *
      * @return {int} Returns the total credit of current page's transactions.
      */
-    public int getTotalCredit() {
+    public double getTotalCredit() {
         return totalCredit;
     }
 
@@ -79,7 +79,7 @@ public class TransactionPage implements Page<Transaction>, Serializable {
      *
      * @return {int} Returns the total debit of current page's transactions.
      */
-    public int getTotalDebit() {
+    public double getTotalDebit() {
         return totalDebit;
     }
 

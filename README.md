@@ -190,9 +190,9 @@ Provides a log out API for user to log out.  Deletes the logged-out user's info 
 All transaction cover the last ten years and are stored in Kafka with the key being the transaction 
 ID and the value hte JSON representation of the transaction.  
 
-A Kafka listener is set up in account backend to receive a batch of transaction JSONs and start a new thread to 
-cast it to current `Transaction` model.  The listener will commit the offset immediately and receive the next batch of transactions
-after creating the thread. All the attributes from a transaction JSON will be ignored if it is not matched to current 
+A Kafka listener is set up in account backend to receive a batch of transaction JSONs and start a couple of thread to 
+cast it to current `Transaction` model and save it to database.  The listener will commit the offset and receive the next batch of transactions
+after finishing the thread job. All the attributes from a transaction JSON will be ignored if it is not matched to current 
 `Transaction` model.  A logger will log out any transaction JSONs and their Kafka offsets if they fail to cast to 
 `Transaction` model.  Then, all transactions will be saved in to database using a mechanism similar to Hashmap 
 in current version.  A specified transaction will be saved into table based on the hash value of transactionId 

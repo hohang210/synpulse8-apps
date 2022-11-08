@@ -46,7 +46,7 @@ public class AccountTransactionManager {
     @Transactional
     public Transaction createTransaction(
             String transactionId,
-            Integer amount,
+            Double amount,
             String accountIban,
             Date valueDate,
             String description

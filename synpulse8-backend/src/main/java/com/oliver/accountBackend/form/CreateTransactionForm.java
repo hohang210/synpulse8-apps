@@ -14,7 +14,7 @@ public class CreateTransactionForm {
      * Transaction's amount.
      */
     @ApiModelProperty(value = "Transaction's amount (e.g. 75)", required = true)
-    private int amount;
+    private double amount;
 
     /**
      * Additional description of the transaction.
@@ -26,7 +26,7 @@ public class CreateTransactionForm {
      * Returns transaction's amount.
      * @return {String} Returns transaction's amount.
      */
-    public int getAmount() {
+    public double getAmount() {
         return amount;
     }
 

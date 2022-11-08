@@ -121,7 +121,7 @@ public class AccountController {
             @PathVariable("iban") String iban,
             @RequestBody CreateTransactionForm createTransactionForm
     ) {
-        int amount = createTransactionForm.getAmount();
+        double amount = createTransactionForm.getAmount();
         String description = createTransactionForm.getDescription();
 
         Transaction transaction;
